@@ -1,0 +1,5 @@
+setSelectionData(Ports, Models) //设置选择框的值 传入端口号数组、传感器型号数组
+
+变量 model  // 当前选择的传感器型号
+
+addData(press,temp);//传入新数据（气压、温度）

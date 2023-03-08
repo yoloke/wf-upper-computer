@@ -1,0 +1,477 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+li {
+  list-style: none;
+}
+body {
+  font-family: "electronicFont";
+  background: url(../images/a.jpg) no-repeat top center;
+  line-height: 1.15;
+}
+header {
+  margin: -0.125rem auto;
+  /* 加载背景图 */
+  background: url(../images/header.png) no-repeat;
+  background-size: 100%;
+  color: rgba(255, 255, 255, 0.712);
+  position: relative;
+  height: 0.925rem;
+}
+header h1 {
+  color: transparent;
+  background: linear-gradient(180deg, #8cebfd 0%, #1862f9 100%);
+  -webkit-background-clip: text;
+  font-size: 0.6rem !important;
+  text-align: center;
+  line-height: 0.925rem;
+}
+header .message {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+header .message a {
+  color: rgba(255, 255, 255, 0.712);
+}
+header .showTime {
+  position: absolute;
+  right: 0.375rem;
+  top: 0;
+  display: flex;
+  height: 0.6rem;
+  align-items: center;
+  color: #39D6FE;
+}
+header .showTime .time {
+  font-size: 0.3rem;
+  border-right: 4px solid #0E17B5;
+  padding-right: 0.25rem;
+  margin-right: 0.25rem;
+}
+header .showTime .date {
+  font-size: 0.125rem;
+}
+.control {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+.control form {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.control form .layui-form-label {
+  color: #e6ebf8;
+  font-size: 0.2rem;
+  white-space: nowrap;
+}
+.control form .guigeshu {
+  margin: 0 0.25rem;
+}
+.control form .layui-form-item {
+  white-space: nowrap;
+}
+.control form .layui-form-item .demo {
+  margin-right: 0.15rem;
+}
+.control form .buttonItem {
+  width: 7.5rem;
+}
+.mainbox {
+  min-width: 1024px;
+  max-width: 2560px;
+  display: flex;
+  margin: 0 auto;
+  padding: 0.125rem 0.125rem 0;
+}
+.mainbox .column {
+  flex: 5;
+}
+.mainbox .column:nth-child(1) {
+  max-width: 50%;
+  margin-right: 0.125rem;
+}
+.mainbox .column:nth-child(2) {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.1875rem;
+}
+.mainbox .column:nth-child(2) .show {
+  flex: 5;
+  display: flex;
+}
+.mainbox .column:nth-child(2) .show :nth-child(1) {
+  flex: 5;
+  margin-right: 0.125rem;
+}
+.mainbox .column:nth-child(2) .show :nth-child(2) {
+  flex: 5;
+}
+.mainbox .column:nth-child(2) .formContain {
+  flex: 5;
+  position: relative;
+  display: flex;
+}
+.mainbox .column:nth-child(2) .formContain::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid #02a6b5;
+  border-top: 2px solid #02a6b5;
+  content: "";
+}
+.mainbox .column:nth-child(2) .formContain::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #02a6b5;
+  border-top: 2px solid #02a6b5;
+  content: "";
+}
+.mainbox .column:nth-child(2) .formContain .table-header {
+  width: 100%;
+  height: 38px;
+  position: absolute;
+  top: 0;
+  background-color: #fff;
+}
+.mainbox .column:nth-child(2) .formContain .table-header ul {
+  display: flex;
+  justify-content: space-between;
+}
+.mainbox .column:nth-child(2) .formContain .table-header ul li {
+  line-height: 38px;
+  min-width: 200px;
+  z-index: 9999;
+}
+.mainbox .column:nth-child(2) .formContain .panel {
+  padding: 0 !important;
+  width: 100%;
+  overflow: auto;
+}
+.mainbox .column:nth-child(2) .formContain .panel::before {
+  content: "";
+  overflow: hidden;
+}
+.mainbox .column:nth-child(2) .formContain .panel::after {
+  content: "";
+  border: none;
+  overflow: hidden;
+}
+.mainbox .column:nth-child(2) .formContain .panel .layui-table {
+  background-color: rgba(204, 201, 201, 0) !important;
+  color: #02a6b5;
+  width: 100%;
+}
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-view,
+.mainbox .column:nth-child(2) .formContain .panel .layui-border-box {
+  width: 100%;
+  border: none !important;
+}
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-view .layui-table td,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-view .layui-table th {
+  border: none !important;
+}
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-hover {
+  background-color: #081140;
+  width: 100%;
+  color: #e6ebf8;
+}
+.mainbox .column:nth-child(2) .formContain .panel .layui-table tbody tr:hover,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table thead tr,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-click,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-header,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-hover,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-mend,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-patch,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-tool,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-total,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table-total tr,
+.mainbox .column:nth-child(2) .formContain .panel .layui-table[lay-even] tr:nth-child(even) {
+  background-color: #08185e;
+  color: #e6ebf8;
+}
+.mainbox .column:nth-child(2) .formContain .layui-table-header {
+  border: none;
+}
+.mainbox .column:nth-child(2) .formContain .table {
+  position: absolute;
+  top: 0px;
+  z-index: 9999;
+}
+.mainbox .column:nth-child(2) .formContain .layui-table,
+.mainbox .column:nth-child(2) .formContain .layui-table-view {
+  margin: 0;
+}
+.mainbox .column:nth-child(2) .formContain .layui-card .layui-card-body .layui-table td {
+  max-width: 100%;
+}
+.mainbox .panel {
+  position: relative;
+  height: 4.25rem;
+  padding: 0 0.1875rem 0.5rem;
+  border: 1px solid rgba(25, 186, 139, 0.17);
+  margin-bottom: 0.1875rem;
+  background: url(../images/line.png) rgba(255, 255, 255, 0.03);
+}
+.mainbox .panel::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid #02a6b5;
+  border-top: 2px solid #02a6b5;
+  content: "";
+}
+.mainbox .panel::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #02a6b5;
+  border-top: 2px solid #02a6b5;
+  content: "";
+}
+.mainbox .panel .panel-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.mainbox .panel .panel-footer::before {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid #02a6b5;
+  border-bottom: 2px solid #02a6b5;
+  content: "";
+}
+.mainbox .panel .panel-footer::after {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #02a6b5;
+  border-bottom: 2px solid #02a6b5;
+  content: "";
+}
+.mainbox .panel h2 {
+  height: 0.6rem;
+  color: #fff;
+  line-height: 0.6rem;
+  text-align: center;
+  font-size: 0.25rem;
+  font-weight: 400;
+}
+.mainbox .panel h2 a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 0.125rem;
+  cursor: pointer;
+}
+.mainbox .panel .chart {
+  height: 3rem;
+}
+/* 约束屏幕尺寸 */
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 42px !important;
+  }
+}
+@media screen and (min-width: 2560px) {
+  html {
+    font-size: 80px !important;
+  }
+}
+/*里面的代码可以根据自己需求去进行更改*/
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(248, 246, 246, 0.1);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(14, 1, 88, 0.4);
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: url(../images/footer.png) no-repeat;
+  background-size: 100%;
+  height: 0.925rem;
+}
+.shade {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: #000330;
+  z-index: 2;
+}
+.shade .tankuang {
+  position: relative;
+  font-family: "electronicFont";
+  background: url(../images/a.jpg) no-repeat top center;
+  line-height: 1.15;
+  width: 50%;
+  height: 60%;
+  border-radius: 5px;
+  margin: 5% auto;
+  z-index: 999;
+  opacity: 1;
+}
+.shade .tankuang .formContain {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.shade .tankuang .formContain::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid #02a6b5;
+  border-top: 2px solid #02a6b5;
+  content: "";
+  z-index: 3;
+}
+.shade .tankuang .formContain::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #02a6b5;
+  border-top: 2px solid #02a6b5;
+  content: "";
+}
+.shade .tankuang .formContain .table-header {
+  width: 100%;
+  height: 38px;
+  position: absolute;
+  top: 0;
+  background-color: #fff;
+}
+.shade .tankuang .formContain .table-header ul {
+  display: flex;
+  justify-content: space-between;
+}
+.shade .tankuang .formContain .table-header ul li {
+  line-height: 38px;
+  min-width: 200px;
+  z-index: 9999;
+}
+.shade .tankuang .formContain .panel {
+  position: relative;
+  padding: 0 !important;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(25, 186, 139, 0.17);
+  margin-bottom: 0.1875rem;
+  background: url(../images/line.png) rgba(255, 255, 255, 0.03);
+}
+.shade .tankuang .formContain .panel::before {
+  content: "";
+  overflow: hidden;
+}
+.shade .tankuang .formContain .panel::after {
+  content: "";
+  border: none;
+  overflow: hidden;
+}
+.shade .tankuang .formContain .panel .layui-table {
+  background-color: rgba(204, 201, 201, 0) !important;
+  color: #02a6b5;
+  width: 100%;
+}
+.shade .tankuang .formContain .panel .layui-table-view,
+.shade .tankuang .formContain .panel .layui-border-box {
+  width: 100%;
+  border: none !important;
+}
+.shade .tankuang .formContain .panel .layui-table-view .layui-table td,
+.shade .tankuang .formContain .panel .layui-table-view .layui-table th {
+  border: none !important;
+}
+.shade .tankuang .formContain .panel .layui-table-hover {
+  background-color: #081140;
+  width: 100%;
+  color: #e6ebf8;
+}
+.shade .tankuang .formContain .panel .layui-table tbody tr:hover,
+.shade .tankuang .formContain .panel .layui-table thead tr,
+.shade .tankuang .formContain .panel .layui-table-click,
+.shade .tankuang .formContain .panel .layui-table-header,
+.shade .tankuang .formContain .panel .layui-table-hover,
+.shade .tankuang .formContain .panel .layui-table-mend,
+.shade .tankuang .formContain .panel .layui-table-patch,
+.shade .tankuang .formContain .panel .layui-table-tool,
+.shade .tankuang .formContain .panel .layui-table-total,
+.shade .tankuang .formContain .panel .layui-table-total tr,
+.shade .tankuang .formContain .panel .layui-table[lay-even] tr:nth-child(even) {
+  background-color: #08185e;
+  color: #e6ebf8;
+}
+.shade .tankuang .formContain .layui-table-header {
+  border: none;
+}
+.shade .tankuang .formContain .table {
+  position: absolute;
+  top: 0px;
+  z-index: 9999;
+}
+.shade .tankuang .formContain .layui-table,
+.shade .tankuang .formContain .layui-table-view {
+  margin: 0;
+}
+.shade .tankuang .formContain .layui-card .layui-card-body .layui-table td {
+  max-width: 100%;
+  max-height: 100%;
+}
+.shade #header {
+  height: 0.75rem;
+}
+.shade #header-right {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 5px;
+  background: red;
+  color: #fff;
+  right: 5px;
+  top: 5px;
+  text-align: center;
+  font-size: 0.375rem;
+}

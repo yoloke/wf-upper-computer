@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>深圳市伟烽恒科技有限公司</title>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+
+<body>
+  <div class="shade" id='shade'>
+    <div class="tankuang">
+      <div id="header">
+        <div id="header-right" onclick="hidder()">x</div>
+      </div>
+      <div class="formContain">
+        <div class="panel" id="panelTable">
+          <table id="popupTable" class="table" lay-filter="test"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 头部的盒子 -->
+  <header>
+    <h1>深圳市伟烽恒科技有限公司</h1>
+    <div class="showTime">
+      <div class="time"></div>
+      <div class="date">
+        <span class="date1"></span>
+      </div>
+    </div>
+    <!-- +- -->
+  </header>
+
+  <!-- 控制台部分 -->
+  <div class="control">
+    <form class="layui-form" action="">
+
+
+      <div class="layui-form-item" id="show">
+        <label class="layui-form-label">通讯口</label>
+        <div class="layui-input-block">
+          <select id="ports" name="ports" lay-filter="ports"></select>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">传感器</label>
+        <div class="layui-input-block">
+          <select id="models" name="models" lay-verify="required" lay-filter="models"></select>
+        </div>
+      </div>
+      <a class="layui-btn layui-btn-primary layui-border-green guigeshu" target="_blank">详细资料</a>
+      <div class="layui-form-item">
+        <label class="layui-form-label">气压单位</label>
+        <div class="layui-input-block">
+          <select id="sensorUnit" name="sensorUnit" lay-verify="required" lay-filter="unit">
+            <option value=1>kPa</option>
+            <option value=0.01>bar</option>
+            <option value=0.14503774>psi</option>
+            <option value=10>hPa</option>
+            <option value=10.0>mbar</option>
+            <option value=0.001>MPa</option>
+            <option value=1000>Pa</option>
+            <option value=7.50061576>mmHg </option>
+          </select>
+        </div>
+      </div>
+      <div class="layui-form-item buttonItem">
+        <div class="layui-input-block">
+          <button class="layui-btn start" lay-filter="formDemo" id="start">运行</button>
+          <a class="layui-btn layui-btn-danger stop">停止</a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- 信息展示主体部分 -->
+  <section class="mainbox">
+
+    <div class="column">
+      <div class="panel line">
+        <h2>气压变化</h2>
+        <div class="chart">图表</div>
+        <div class="panel-footer"></div>
+      </div>
+
+      <div class="panel line2">
+        <h2>温度变化</h2>
+        <div class="chart">图表</div>
+        <div class="panel-footer"></div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="show">
+        <div class="panel gauge1">
+          <h2 id="pressure">气压 kPa</h2>
+          <div class="chart">图表</div>
+          <div class="panel-footer"></div>
+        </div>
+        <div class="panel gauge2">
+          <h2>温度 ℃</h2>
+          <div class="chart">图表</div>
+          <div class="panel-footer"></div>
+        </div>
+      </div>
+      <div class="formContain">
+        <div class="panel" id="panelTable">
+          <table id="demo" class="table" lay-filter="test"></table>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <div class="footer"></div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/echarts.js"></script>
+<script src="./layui/layui.js"></script>
+<script src="js/flexible.js"></script>
+<script src="js/utils.js"> </script>
+<script>
+  let start = document.querySelector(".start");
+  let stop = document.querySelector(".stop");
+  let guigeshu = document.querySelector(".guigeshu");
+  let pressure = document.getElementById("pressure");
+  let u = 1; // 气压单位换算系数
+  let unit = 'Kpa' // 气压单位
+  let port;
+  let model = 'WF5803_1BAR'; // 传感器型号 
+
+  // 两个折线图的x坐标
+  let pressureX = 0;
+  let tempX = 0;
+
+  let tableData = [];
+  // 气压值 y坐标数组
+  let PressChartList = [];
+  // 温度值 y坐标数组
+  let TempChartList = [];
+
+  // 表格中的时间
+  let tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+
+
+  // 气压仪表盘y轴的范围
+  let pressMinY = 9999;
+  let pressMaxY = -9999;
+
+  // 温度仪表盘y轴的范围
+  let tempMinY = 9999;
+  let tempMaxY = -9999;
+
+
+  // 选择框赋值
+  function setSelectionData(Ports, Models, SensorUnit) {
+    var select1Parent = document.getElementById('show');
+    // 端口号 选择框
+    var select1 = document.getElementById('ports');
+    if (Ports.length == 0) select1Parent.style.display = 'none';
+    else {
+      for (var i = 0; i < Ports.length; i++) {
+        var option = document.createElement("option");
+        option.setAttribute("value", Ports[i]);
+        option.innerText = Ports[i];
+        select1.appendChild(option)
+      };
+      port = Ports[0]
+    }
+    // 传感器型号 选择框
+    var select2 = document.getElementById('models');
+    for (var i = 0; i < Models.length; i++) {
+      var option = document.createElement("option");
+      option.setAttribute("value", Models[i]);
+      option.innerText = Models[i];
+      select2.appendChild(option)
+    };
+    layui.use('form', function () {
+      var form = layui.form;
+      // 渲染选择框
+      form.render("select");
+      // 监听端口号
+      form.on("select(ports)", function (data) {
+        port = data.value
+        return false;
+      });
+      // 监听产品详情按钮
+      form.on("select(models)", function (data) {
+        model = data.value
+        return false;
+      });
+      // 监听气压单位
+      form.on('select(unit)', function (data) {
+        //console.log(data);
+        u = data.value
+        unit = data.elem[data.elem.selectedIndex].text;
+        pressure.innerHTML = "气压" + " " + unit;
+        // 清空 气压折现图 数据
+        pressureX = 0;
+        PressChartList.length = 0;
+      });
+    });
+
+  }
+
+  var Ports = [1, 2, 3, 4, 5, 6];
+  var Models = [
+    'WF5803_1BAR',
+    'WF5803_2BAR',
+    'WF5803_7BAR',
+    'WF5803_10BAR',
+    'WF5803_20BAR',
+    'WF5805_2BAR',
+    'WF100D_5KPA',
+    'WF100D_10KPA',
+    'WF100D_40KPA',
+    'WF100D_100KPA',
+    'WF100D_200KPA',
+    'WF100D_300KPA',
+    'WF200D_5KPA',
+    'WF200D_10KPA',
+    'WF183D_11BAR'
+  ];
+  setSelectionData(Ports, Models)
+</script>
+<script src="js/chart.js"></script>
+<!-- 表格的序号 -->
+<script type="text/html" id="xuhao">
+  {{d.LAY_TABLE_INDEX+1}}
+</script>
+<script>
+  guigeshu.addEventListener("click", function () {
+    console.log(model);
+  })
+  document.getElementById('shade').style.display = "none";
+  window.onkeydown = function () {
+    if (event.keyCode == 115) {
+      document.getElementById('shade').style.display = "block";
+    }
+  }
+
+  function hidder() {
+    document.getElementById('shade').style.display = "none";
+  }
+</script>
+
+</html>

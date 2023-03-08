@@ -1,0 +1,565 @@
+// css 初始化
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  font-family: "electronicFont";
+  background: url(../images/a.jpg) no-repeat top center;
+  line-height: 1.15;
+}
+
+header {
+  // min-width: 1024px;
+  // max-width: 2560px;
+  margin: -0.125rem auto;
+  /* 加载背景图 */
+  background: url(../images/header.png) no-repeat;
+  background-size: 100%;
+  color: rgba(255, 255, 255, 0.712);
+  position: relative;
+  height: .925rem;
+
+  h1 {
+    color: transparent;
+    background: linear-gradient(180deg, rgba(140, 235, 253, 1) 0%, rgba(24, 98, 249, 1) 100%);
+    -webkit-background-clip: text;
+    font-size: 0.6rem !important;
+    text-align: center;
+    line-height: .925rem;
+  }
+
+  .message {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    a {
+      color: rgba(255, 255, 255, 0.712);
+    }
+  }
+
+  .showTime {
+    position: absolute;
+    right: 0.375rem;
+    top: 0;
+    display: flex;
+    height: .6rem;
+    align-items: center;
+    color: #39D6FE;
+
+    .time {
+      font-size: 0.3rem;
+      border-right: 4px solid #0E17B5;
+      padding-right: 0.25rem;
+      margin-right: 0.25rem;
+    }
+
+    .date {
+      font-size: .125rem;
+    }
+  }
+}
+
+// 控制台
+.control {
+  margin-top: .25rem;
+  display: flex;
+  align-items: center;
+
+
+  form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .layui-form-label {
+      color: #e6ebf8;
+      font-size: .2rem;
+      white-space: nowrap;
+    }
+
+    .guigeshu {
+      margin: 0 .25rem;
+    }
+
+    .layui-form-item {
+      .demo {
+        margin-right: .15rem;
+      }
+
+      white-space: nowrap;
+    }
+
+    .buttonItem {
+      width: 7.5rem;
+    }
+
+  }
+}
+
+// 页面主体盒子
+.mainbox {
+  min-width: 1024px;
+  max-width: 2560px;
+  display: flex;
+  margin: 0 auto;
+  padding: 0.125rem 0.125rem 0;
+
+  .column {
+    flex: 5;
+
+    &:nth-child(1) {
+      max-width: 50%;
+      margin-right: 0.125rem;
+    }
+
+    &:nth-child(2) {
+      flex: 5;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.1875rem;
+
+      .show {
+        flex: 5;
+        display: flex;
+
+        :nth-child(1) {
+          flex: 5;
+          margin-right: 0.125rem;
+        }
+
+        :nth-child(2) {
+          flex: 5;
+        }
+      }
+
+      .formContain {
+        flex: 5;
+        position: relative;
+        display: flex;
+
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 10px;
+          height: 10px;
+          border-left: 2px solid #02a6b5;
+          border-top: 2px solid #02a6b5;
+          content: "";
+        }
+
+        &::after {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 10px;
+          height: 10px;
+          border-right: 2px solid #02a6b5;
+          border-top: 2px solid #02a6b5;
+          content: "";
+        }
+
+        .table-header {
+          width: 100%;
+          height: 38px;
+          position: absolute;
+          top: 0;
+          background-color: #fff;
+
+          ul {
+            display: flex;
+            justify-content: space-between;
+
+            li {
+              line-height: 38px;
+              min-width: 200px;
+              z-index: 9999;
+            }
+          }
+        }
+
+        .panel {
+          padding: 0 !important;
+          width: 100%;
+          overflow: auto;
+
+          &::before {
+            content: "";
+            overflow: hidden;
+          }
+
+          &::after {
+            content: "";
+            border: none;
+            overflow: hidden;
+          }
+
+          .layui-table {
+            background-color: rgba(204, 201, 201, 0) !important;
+            color: #02a6b5;
+            width: 100%;
+          }
+
+          .layui-table-view,
+          .layui-border-box {
+            width: 100%;
+            border: none !important;
+          }
+
+          .layui-table-view .layui-table td,
+          .layui-table-view .layui-table th {
+            border: none !important;
+          }
+
+          .layui-table-hover {
+            background-color: #081140;
+            width: 100%;
+            color: #e6ebf8;
+          }
+
+          .layui-table tbody tr:hover,
+          .layui-table thead tr,
+          .layui-table-click,
+          .layui-table-header,
+          .layui-table-hover,
+          .layui-table-mend,
+          .layui-table-patch,
+          .layui-table-tool,
+          .layui-table-total,
+          .layui-table-total tr,
+          .layui-table[lay-even] tr:nth-child(even) {
+            background-color: #08185e;
+            color: #e6ebf8;
+          }
+        }
+
+        .layui-table-header {
+          border: none;
+        }
+
+        .table {
+          position: absolute;
+          top: 0px;
+          z-index: 9999;
+        }
+
+        .layui-table,
+        .layui-table-view {
+          margin: 0;
+        }
+
+        .layui-card .layui-card-body .layui-table td {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  .panel {
+    position: relative;
+    height: 4.25rem;
+    padding: 0 0.1875rem 0.5rem;
+    border: 1px solid rgba(25, 186, 139, 0.17);
+    margin-bottom: 0.1875rem;
+    background: url(../images/line.png) rgba(255, 255, 255, 0.03);
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #02a6b5;
+      border-top: 2px solid #02a6b5;
+      content: "";
+    }
+
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #02a6b5;
+      border-top: 2px solid #02a6b5;
+      content: "";
+    }
+
+    .panel-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+
+      &::before {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 10px;
+        height: 10px;
+        border-left: 2px solid #02a6b5;
+        border-bottom: 2px solid #02a6b5;
+        content: "";
+      }
+
+      &::after {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid #02a6b5;
+        border-bottom: 2px solid #02a6b5;
+        content: "";
+      }
+    }
+
+    h2 {
+      height: 0.6rem;
+      color: #fff;
+      line-height: 0.6rem;
+      text-align: center;
+      font-size: 0.25rem;
+      font-weight: 400;
+
+      a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 0.125rem;
+        cursor: pointer;
+      }
+    }
+
+    .chart {
+      height: 3rem;
+    }
+  }
+}
+
+/* 约束屏幕尺寸 */
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 42px !important;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  html {
+    font-size: 80px !important;
+  }
+}
+
+/*里面的代码可以根据自己需求去进行更改*/
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(248, 246, 246, 0.1);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(14, 1, 88, 0.4);
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: url(../images/footer.png) no-repeat;
+  background-size: 100%;
+  // color: rgba(255, 255, 255, 0.712);
+  // position: relative;
+  height: .925rem;
+}
+
+.shade {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 3 48 / 520%);
+  z-index: 2;
+
+  .tankuang {
+    position: relative;
+    font-family: "electronicFont";
+    background: url(../images/a.jpg) no-repeat top center;
+    line-height: 1.15;
+    width: 50%;
+    height: 60%;
+    border-radius: 5px;
+    margin: 5% auto;
+    z-index: 999;
+    opacity: 1;
+
+    .formContain {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+
+      &::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        border-left: 2px solid #02a6b5;
+        border-top: 2px solid #02a6b5;
+        content: "";
+        z-index: 3;
+      }
+
+      &::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid #02a6b5;
+        border-top: 2px solid #02a6b5;
+        content: "";
+      }
+
+      .table-header {
+        width: 100%;
+        height: 38px;
+        position: absolute;
+        top: 0;
+        background-color: #fff;
+
+        ul {
+          display: flex;
+          justify-content: space-between;
+
+          li {
+            line-height: 38px;
+            min-width: 200px;
+            z-index: 9999;
+          }
+        }
+      }
+
+      .panel {
+        position: relative;
+        padding: 0 !important;
+        overflow: auto;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(25, 186, 139, 0.17);
+        margin-bottom: 0.1875rem;
+        background: url(../images/line.png) rgba(255, 255, 255, 0.03);
+
+        &::before {
+          content: "";
+          overflow: hidden;
+        }
+
+        &::after {
+          content: "";
+          border: none;
+          overflow: hidden;
+        }
+
+        .layui-table {
+          background-color: rgba(204, 201, 201, 0) !important;
+          color: #02a6b5;
+          width: 100%;
+        }
+
+        .layui-table-view,
+        .layui-border-box {
+          width: 100%;
+          border: none !important;
+        }
+
+        .layui-table-view .layui-table td,
+        .layui-table-view .layui-table th {
+          border: none !important;
+        }
+
+        .layui-table-hover {
+          background-color: #081140;
+          width: 100%;
+          color: #e6ebf8;
+        }
+
+        .layui-table tbody tr:hover,
+        .layui-table thead tr,
+        .layui-table-click,
+        .layui-table-header,
+        .layui-table-hover,
+        .layui-table-mend,
+        .layui-table-patch,
+        .layui-table-tool,
+        .layui-table-total,
+        .layui-table-total tr,
+        .layui-table[lay-even] tr:nth-child(even) {
+          background-color: #08185e;
+          color: #e6ebf8;
+        }
+      }
+
+      .layui-table-header {
+        border: none;
+      }
+
+      .table {
+        position: absolute;
+        top: 0px;
+        z-index: 9999;
+      }
+
+      .layui-table,
+      .layui-table-view {
+        margin: 0;
+      }
+
+      .layui-card .layui-card-body .layui-table td {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  }
+
+  #header {
+    height: .75rem
+  }
+
+  #header-right {
+    position: absolute;
+    width: .5rem;
+    height: .5rem;
+    border-radius: 5px;
+    background: red;
+    color: #fff;
+    right: 5px;
+    top: 5px;
+    text-align: center;
+    font-size: .375rem;
+  }
+}
