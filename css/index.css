@@ -10,6 +10,8 @@ body {
   font-family: "electronicFont";
   background: url(../images/a.jpg) no-repeat top center;
   line-height: 1.15;
+  min-width: 1024px;
+  max-width: 2560px;
 }
 header {
   margin: -0.125rem auto;

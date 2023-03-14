@@ -1,6 +1,8 @@
 // -------------------------------------------------------------------------------------------------------------------------------------------------
 // 气压折线图
 let min = 30, max = 40;
+let table1;
+let table2;
 var myChart1 = echarts.init(document.querySelector(".line .chart"));
 (function () {
   // 2.指定配置
@@ -268,6 +270,9 @@ var myChart3 = echarts.init(document.querySelector(".gauge1 .chart"));
           precision: 1,
           color: "#00f2f1",
           offsetCenter: [0, "10%"],
+          formatter: function (value, index) {
+            return value.toFixed(1);
+          }
         },
         title: {
           offsetCenter: [0, "-30%"],
@@ -459,126 +464,7 @@ var myChart4 = echarts.init(document.querySelector(".gauge2 .chart"));
 
 // 添加数据
 
-let addData = function (press, temp,rawData) {
-  if (model == 'WF5803_1BAR') {
-    min = 30 * u; max = 150 * u
-  } else if (model == 'WF5803_2BAR') { min = 30 * u; max = 250 * u }
-  else if (model == 'WF5803_7BAR') { min = 30 * u; max = 800 * u }
-  else if (model == 'WF5803_10BAR') { min = 30 * u; max = 1100 * u }
-  else if (model == 'WF5803_20BAR') { min = 30 * u; max = 2100 * u }
-  else if (model == 'WF5805_2BAR') { min = 30 * u; max = 250 * u }
-  else if (model == 'WF100D_5KPA') { min = -6 * u; max = 6 * u }
-  else if (model == 'WF100D_10KPA') { min = -12 * u; max = 12 * u }
-  else if (model == 'WF100D_40KPA') { min = -50 * u; max = 50 * u }
-  else if (model == 'WF100D_100KPA') { min = -120 * u; max = 120 * u }
-  else if (model == 'WF100D_200KPA') { min = -100 * u; max = 240 * u }
-  else if (model == 'WF100D_300KPA') { min = -100 * u; max = 360 * u }
-  else if (model == 'WF200D_5KPA') { min = -6 * u; max = 6 * u }
-  else if (model == 'WF200D_10KPA') { min = -12 * u; max = 12 * u }
-  else if (model == 'WF183D_11BAR') { min = 30 * u; max = 1200 * u }
-  press = press * u
-  press = press.toFixed(4)
-  if (press < pressMinY) pressMinY = Math.ceil(press) - 1;
-  if (press > pressMaxY) pressMaxY = Math.ceil(press) + 1;
-
-  if (temp < tempMinY) tempMinY = Math.ceil(temp) - 1;
-  if (temp > tempMaxY) tempMaxY = Math.ceil(temp) + 1;
-
-  PressChartList.push(PressChart(press));
-  TempChartList.push(TempChart(temp));
-  myChart1.setOption({
-    series: [
-      {
-        data: PressChartList,
-      },
-    ],
-  });
-  myChart2.setOption({
-    series: [
-      {
-        data: TempChartList,
-      },
-    ],
-  });
-  myChart3.setOption({
-    series: [
-      {
-        type: "gauge",
-        min: min,
-        max: max,
-        data: [
-          {
-            value: press,
-            formatter: function (value, index) {
-              return value.toFixed(4);
-            }
-          },
-        ],
-      },
-      {
-        min: min,
-        max: max,
-      }
-    ],
-  });
-  myChart4.setOption({
-    series: [
-      {
-        data: [
-          {
-            value: temp,
-          },
-        ],
-      },
-      {
-        data: [
-          {
-            value: temp,
-          },
-        ],
-      },
-    ],
-  });
-  let pressUnit = press + " " + unit;
-  var tempUnit = temp + " " + "℃";
-
-  tableData.unshift({ pressUnit, tempUnit, tabelTime ,rawData});
-  // 重新创建时间
-  tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
-  // 渲染表格
-  layui.use("table", function () {
-    var table = layui.table;
-    table.render({
-      elem: "#demo",
-      data: tableData,
-      limit: tableData.length,
-      cols: [
-        [
-          { field: "tabelTime", title: "创建时间", align: "center" },
-          { field: "pressUnit", title: "气压", align: "center" },
-          { field: "tempUnit", title: "温度", align: "center" },
-        ],
-      ],
-    });
-  });
-  // 渲染弹框表格
-  layui.use("table", function () {
-    var table = layui.table;
-    table.render({
-      elem: "#popupTable",
-      data: tableData,
-      limit: tableData.length,
-      cols: [
-        [
-          { field: "tabelTime", title: "创建时间", align: "center" },
-          { field: "pressUnit", title: "气压", align: "center" },
-          { field: "tempUnit", title: "温度", align: "center" },
-          { field: "rawData", title: "寄存器值", align: "center" },
-        ],
-      ],
-    });
-  });
-};
+let addData = function () { }
 // 清空数据
 function clearData() {
   pressureX = 0;
@@ -586,63 +472,48 @@ function clearData() {
   tableData.length = 0;
   PressChartList.length = 0;
   TempChartList.length = 0;
-  layui.use("table", function () {
-    var table = layui.table;
-    table.render({
-      elem: "#demo",
-      data: tableData,
-      limit: tableData.length,
-      cols: [
-        [
-          { field: "tabelTime", title: "创建时间", align: "center" },
-          { field: "pressUnit", title: "气压", align: "center" },
-          { field: "tempUnit", title: "温度", align: "center" },
-        ],
-      ],
-    });
-  });
-  layui.use("table", function () {
-    var table = layui.table;
-    table.render({
-      elem: "#popupTable",
-      data: tableData,
-      limit: tableData.length,
-      cols: [
-        [
-          { field: "tabelTime", title: "创建时间", align: "center" },
-          { field: "pressUnit", title: "气压", align: "center" },
-          { field: "tempUnit", title: "温度", align: "center" },
-          { field: "rawData", title: "寄存器值", align: "center" },
-        ],
-      ],
-    });
-  });
-  myChart3.setOption({
-    series: [
-      {
-        type: "gauge",
-        data: [],
-      },
-    ],
-  });
-  myChart4.setOption({
-    series: [
-      {
-        data: [],
-      },
-      {
-        data: [],
-      },
-    ],
-  });
 };
-
+// 渲染表格
+layui.use("table", function () {
+  table1 = layui.table;
+  table1.render({
+    elem: "#demo",
+    id:'table1',
+    data: tableData,
+    limit: 300,
+    cols: [
+      [
+        { field: "tabelTime", title: "创建时间", align: "center" },
+        { field: "pressUnit", title: "气压", align: "center" },
+        { field: "tempUnit", title: "温度", align: "center" },
+      ],
+    ],
+  });
+});
+// 渲染弹框表格
+layui.use("table", function () {
+  table2 = layui.table;
+  table2.render({
+    elem: "#popupTable",
+    data: tableData,
+    id:'table2',
+    limit: 300,
+    cols: [
+      [
+        { field: "tabelTime", title: "创建时间", align: "center" },
+        { field: "pressUnit", title: "气压", align: "center" },
+        { field: "tempUnit", title: "温度", align: "center" },
+        { field: "rawData", title: "寄存器值", align: "center" },
+      ],
+    ],
+  });
+});
 //这里只是用了一个标示进行输出与不输出的控制
 let flag = false;
 
 start.addEventListener("click", function () {
   clearData();
-  addData = function (press, temp,rawData) {
+  addData = function (press, temp, rawData) {
     if (model == 'WF5803_1BAR') {
       min = 30 * u; max = 150 * u
     } else if (model == 'WF5803_2BAR') { min = 30 * u; max = 250 * u }
@@ -663,12 +534,16 @@ start.addEventListener("click", function () {
     press = press.toFixed(4)
     if (press < pressMinY) pressMinY = Math.ceil(press) - 1;
     if (press > pressMaxY) pressMaxY = Math.ceil(press) + 1;
-  
+
     if (temp < tempMinY) tempMinY = Math.ceil(temp) - 1;
     if (temp > tempMaxY) tempMaxY = Math.ceil(temp) + 1;
-  
+
     PressChartList.push(PressChart(press));
     TempChartList.push(TempChart(temp));
+
+    PressChartList = PressChartList.slice(0, 300)
+    TempChartList = TempChartList.slice(0, 300)
+
     myChart1.setOption({
       series: [
         {
@@ -724,42 +599,17 @@ start.addEventListener("click", function () {
     });
     let pressUnit = press + " " + unit;
     var tempUnit = temp + " " + "℃";
-  
-    tableData.unshift({ pressUnit, tempUnit, tabelTime ,rawData});
+
+    tableData.unshift({ pressUnit, tempUnit, tabelTime, rawData });
+
+    tableData = tableData.slice(0, 300)
     // 重新创建时间
     tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
-    // 渲染表格
-    layui.use("table", function () {
-      var table = layui.table;
-      table.render({
-        elem: "#demo",
-        data: tableData,
-        limit: tableData.length,
-        cols: [
-          [
-            { field: "tabelTime", title: "创建时间", align: "center" },
-            { field: "pressUnit", title: "气压", align: "center" },
-            { field: "tempUnit", title: "温度", align: "center" },
-          ],
-        ],
-      });
+    table1.reload("table1", {
+      data: tableData
     });
-    // 渲染弹框表格
-    layui.use("table", function () {
-      var table = layui.table;
-      table.render({
-        elem: "#popupTable",
-        data: tableData,
-        limit: tableData.length,
-        cols: [
-          [
-            { field: "tabelTime", title: "创建时间", align: "center" },
-            { field: "pressUnit", title: "气压", align: "center" },
-            { field: "tempUnit", title: "温度", align: "center" },
-            { field: "rawData", title: "寄存器值", align: "center" },
-          ],
-        ],
-      });
+    table2.reload("table2", {
+      data: tableData
     });
   };
   document.querySelector("#models").disabled = true
@@ -786,13 +636,11 @@ stop.addEventListener("click", function () {
 setInterval(() => {
   let A = 39;
   let B = 50;
-  let C = 500;
-  let press = ((B - A) * Math.
-    random() + A).toFixed(2);
+  let press = ((B - A) * Math.random() + A).toFixed(2);
   let temp = ((B - A) * Math.random() + A).toFixed(2);
   let rowData = "152,241,192,26,231,0,@,@"
-  setData = addData(press, temp ,rowData );
-}, 1000);
+  setData = addData(press, temp, rowData);
+}, 1);
 
 // 4. 让图表跟随屏幕自动的去适应
 window.addEventListener("resize", function () {

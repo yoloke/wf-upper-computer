@@ -29,6 +29,7 @@
       <div class="time"></div>
       <div class="date">
         <span class="date1"></span>
+        
       </div>
     </div>
     <!-- +- -->
@@ -75,7 +76,6 @@
       </div>
     </form>
   </div>
-
   <!-- 信息展示主体部分 -->
   <section class="mainbox">
 
@@ -107,7 +107,7 @@
       </div>
       <div class="formContain">
         <div class="panel" id="panelTable">
-          <table id="demo" class="table" lay-filter="test"></table>
+          <table id="demo" class="table"></table>
         </div>
       </div>
     </div>
@@ -192,7 +192,6 @@
       });
       // 监听气压单位
       form.on('select(unit)', function (data) {
-        //console.log(data);
         u = data.value
         unit = data.elem[data.elem.selectedIndex].text;
         pressure.innerHTML = "气压" + " " + unit;
@@ -222,7 +221,7 @@
     'WF200D_10KPA',
     'WF183D_11BAR'
   ];
-  setSelectionData(Ports, Models)
+  // setSelectionData(Ports, Models)
 </script>
 <script src="js/chart.js"></script>
 <!-- 表格的序号 -->
@@ -230,8 +229,7 @@
   {{d.LAY_TABLE_INDEX+1}}
 </script>
 <script>
-  guigeshu.addEventListener("click", function () {
-    console.log(model);
+ guigeshu.addEventListener("click", function () {
   })
   document.getElementById('shade').style.display = "none";
   window.onkeydown = function () {
@@ -239,10 +237,10 @@
       document.getElementById('shade').style.display = "block";
     }
   }
-
   function hidder() {
     document.getElementById('shade').style.display = "none";
   }
 </script>
+
 
 </html>
