@@ -34,13 +34,13 @@ function time() {
     m +
     ":" +
     s;
-  document.querySelector(".date1").innerHTML =
-    y +
-    "/" +
-    mt +
-    "/" +
-    day;
-    
+  // document.querySelector(".date1").innerHTML =
+  //   y +
+  //   "/" +
+  //   mt +
+  //   "/" +
+  //   day;
+  document.querySelector(".date1").innerHTML = '版本1.0.0'
   t = setTimeout(time, 1000); //设定定时器，循环运行
 }
 

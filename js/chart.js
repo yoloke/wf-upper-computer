@@ -478,7 +478,7 @@ layui.use("table", function () {
   table1 = layui.table;
   table1.render({
     elem: "#demo",
-    id:'table1',
+    id:'table11',
     data: tableData,
     limit: 300,
     cols: [
@@ -496,7 +496,7 @@ layui.use("table", function () {
   table2.render({
     elem: "#popupTable",
     data: tableData,
-    id:'table2',
+    id:'table22',
     limit: 300,
     cols: [
       [
@@ -541,8 +541,8 @@ start.addEventListener("click", function () {
     PressChartList.push(PressChart(press));
     TempChartList.push(TempChart(temp));
 
-    PressChartList = PressChartList.slice(0, 300)
-    TempChartList = TempChartList.slice(0, 300)
+    // PressChartList = PressChartList.slice(0, 300)
+    // TempChartList = TempChartList.slice(0, 300)
 
     myChart1.setOption({
       series: [
@@ -605,10 +605,10 @@ start.addEventListener("click", function () {
     tableData = tableData.slice(0, 300)
     // 重新创建时间
     tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
-    table1.reload("table1", {
+    table1.reload("table11", {
       data: tableData
     });
-    table2.reload("table2", {
+    table2.reload("table22", {
       data: tableData
     });
   };
@@ -633,14 +633,14 @@ stop.addEventListener("click", function () {
   addData = function () { }
 });
 
-setInterval(() => {
-  let A = 39;
-  let B = 50;
-  let press = ((B - A) * Math.random() + A).toFixed(2);
-  let temp = ((B - A) * Math.random() + A).toFixed(2);
-  let rowData = "152,241,192,26,231,0,@,@"
-  setData = addData(press, temp, rowData);
-}, 1);
+// setInterval(() => {
+//   let A = 39;
+//   let B = 50;
+//   let press = ((B - A) * Math.random() + A).toFixed(2);
+//   let temp = ((B - A) * Math.random() + A).toFixed(2);
+//   let rowData = "152,241,192,26,231,0,@,@"
+//   setData = addData(press, temp, rowData);
+// }, 1);
 
 // 4. 让图表跟随屏幕自动的去适应
 window.addEventListener("resize", function () {
