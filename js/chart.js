@@ -3,6 +3,9 @@
 let min = 30, max = 40;
 let table1;
 let table2;
+let pressY = [];
+let tempY = [];
+let x = [];
 var myChart1 = echarts.init(document.querySelector(".line .chart"));
 (function () {
   // 2.指定配置
@@ -12,9 +15,7 @@ var myChart1 = echarts.init(document.querySelector(".line .chart"));
     tooltip: {
       trigger: "axis",
       formatter: function (params) {
-        params = params[0];
-        var time = params.name;
-        return "气压：" + time + unit;
+        return "气压：" + params[0].value + unit;
       },
     },
     // 图例组件
@@ -49,16 +50,22 @@ var myChart1 = echarts.init(document.querySelector(".line .chart"));
       splitLine: {
         show: false,
       },
+      data: x,
     },
     yAxis: {
       type: "value",
-      minInterval: 0.1,
+      //minInterval设置刻度的最小间距
+      //只在数值轴或时间轴中有效，所以要保证type为value或time
+      //minInterval: 1,
       boundaryGap: [0, "80%"],
       axisTick: {
         show: false, // 去除刻度线
       },
       axisLabel: {
         color: "#4c9bfd", // 文本颜色
+        formatter: function (value, index) {
+          return value.toFixed(1)
+        }
       },
       splitLine: {
         show: false,
@@ -79,17 +86,13 @@ var myChart1 = echarts.init(document.querySelector(".line .chart"));
         type: "line",
         // true 可以折线显示带有弧度
         smooth: true,
-        data: PressChartList,
+        data: pressY,
         showSymbol: false,
       },
     ],
   };
   // 3. 把配置给实例对象
   myChart1.setOption(option);
-  // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
-    myChart1.resize();
-  });
 })();
 var myChart2 = echarts.init(document.querySelector(".line2 .chart"));
 // 温度折线图 
@@ -203,10 +206,6 @@ var myChart2 = echarts.init(document.querySelector(".line2 .chart"));
     ],
   };
   myChart2.setOption(option);
-  // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
-    myChart2.resize();
-  });
 })();
 // 气压仪表盘 
 var myChart3 = echarts.init(document.querySelector(".gauge1 .chart"));
@@ -455,10 +454,6 @@ var myChart4 = echarts.init(document.querySelector(".gauge2 .chart"));
     ],
   };
   myChart4.setOption(option);
-  // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
-    myChart4.resize();
-  });
 })();
 // -----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -467,20 +462,20 @@ var myChart4 = echarts.init(document.querySelector(".gauge2 .chart"));
 let addData = function () { }
 // 清空数据
 function clearData() {
-  pressureX = 0;
-  tempX = 0;
+  tempY.length = 0
+  pressY.length = 0
+  x.length = 0
   tableData.length = 0;
-  PressChartList.length = 0;
-  TempChartList.length = 0;
+  // PressChartList.length = 0;
+  // TempChartList.length = 0;
 };
 // 渲染表格
 layui.use("table", function () {
   table1 = layui.table;
   table1.render({
     elem: "#demo",
-    id:'table11',
+    id: 'table11',
     data: tableData,
-    limit: 300,
     cols: [
       [
         { field: "tabelTime", title: "创建时间", align: "center" },
@@ -496,8 +491,8 @@ layui.use("table", function () {
   table2.render({
     elem: "#popupTable",
     data: tableData,
-    id:'table22',
     limit: 300,
+    id: 'table22',
     cols: [
       [
         { field: "tabelTime", title: "创建时间", align: "center" },
@@ -538,23 +533,89 @@ start.addEventListener("click", function () {
     if (temp < tempMinY) tempMinY = Math.ceil(temp) - 1;
     if (temp > tempMaxY) tempMaxY = Math.ceil(temp) + 1;
 
-    PressChartList.push(PressChart(press));
-    TempChartList.push(TempChart(temp));
+    pressY.push(Number(press))
+    pressY = pressY.slice(-300)
+    tempY.push(Number(temp))
+    tempY = tempY.slice(-300)
+
+    x.length = 0
+    for (i = 1; i <= pressY.length; i++) {
+      x.push(i)
+    }
+    // PressChartList.push(PressChart(press));
+    // TempChartList.push(TempChart(temp));
 
     // PressChartList = PressChartList.slice(0, 300)
     // TempChartList = TempChartList.slice(0, 300)
 
     myChart1.setOption({
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        show: false,
+        axisTick: {
+          show: false, // 去除刻度线
+        },
+        axisLabel: {
+          color: "#4c9bfd", // 文本颜色
+        },
+        axisLine: {
+          show: false, // 去除轴线
+        },
+        splitLine: {
+          show: false,
+        },
+        data: x
+      },
+
+      yAxis: {
+        minInterval: 0.1,
+        min: (value) => {
+          return (value.min - 0.5)
+        },
+        max: (value) => {
+          return (value.max + 0.5)
+        },
+      },
+
       series: [
         {
-          data: PressChartList,
+          data: pressY,
         },
       ],
     });
     myChart2.setOption({
+      xAxis:
+      {
+        type: "category",
+        boundaryGap: false,
+        // 文本颜色为rgba(255,255,255,.6)  文字大小为 12
+        axisLabel: {
+          color: "rgba(255,255,255,.6)",
+          fontSize: 12,
+        },
+        show: false,
+        // x轴线的颜色为   rgba(255,255,255,.2)
+        axisLine: {
+          lineStyle: {
+            color: "rgba(255,255,255,.2)",
+          },
+        },
+        data: x
+      },
+
+      yAxis: {
+        minInterval: 0.1,
+        min: (value) => {
+          return (value.min - 0.5)
+        },
+        max: (value) => {
+          return (value.max + 0.5)
+        },
+      },
       series: [
         {
-          data: TempChartList,
+          data: tempY
         },
       ],
     });
@@ -613,6 +674,7 @@ start.addEventListener("click", function () {
     });
   };
   document.querySelector("#models").disabled = true
+  document.querySelector("#sensorUnit").disabled = true
   $('#start').addClass("layui-btn-disabled").attr("disabled", true);
   layui.use('form', function () {
     var form = layui.form;
@@ -625,6 +687,7 @@ stop.addEventListener("click", function () {
   // 重新定义函数
   $('#start').removeClass("layui-btn-disabled").attr("disabled", false);
   document.querySelector("#models").disabled = false
+  document.querySelector("#sensorUnit").disabled = false
   layui.use('form', function () {
     var form = layui.form;
     // 渲染选择框
@@ -633,14 +696,14 @@ stop.addEventListener("click", function () {
   addData = function () { }
 });
 
-// setInterval(() => {
-//   let A = 39;
-//   let B = 50;
-//   let press = ((B - A) * Math.random() + A).toFixed(2);
-//   let temp = ((B - A) * Math.random() + A).toFixed(2);
-//   let rowData = "152,241,192,26,231,0,@,@"
-//   setData = addData(press, temp, rowData);
-// }, 1);
+setInterval(() => {
+  let A = 49;
+  let B = 50;
+  let press = ((B - A) * Math.random() + A).toFixed(2);
+  let temp = ((B - A) * Math.random() + A).toFixed(2);
+  let rowData = "152,241,192,26,231,0,@,@"
+  setData = addData(press, temp, rowData);
+}, 1000);
 
 // 4. 让图表跟随屏幕自动的去适应
 window.addEventListener("resize", function () {

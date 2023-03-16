@@ -46,14 +46,15 @@ function time() {
 
 
 // 封装气压仪表盘[x,y]
-function PressChart(press) {
-  pressureX = pressureX + 1;
-  y = press;
-  return {
-    name: y.toString(),
-    value: [pressureX, y],
-  };
-};
+// function PressChart(press) {
+//   pressureX = pressureX + 1;
+//   y = press;
+//   return {
+//     name: y.toString(),
+//     value: [pressureX, y],
+//   };
+// };
+
 // 封装温度仪表盘[x,y]
 function TempChart(temp) {
   tempX = tempX + 1;

@@ -194,6 +194,7 @@
         u = data.value
         unit = data.elem[data.elem.selectedIndex].text;
         pressure.innerHTML = "气压" + " " + unit;
+        console.log("ssssss",unit);
         // 清空 气压折现图 数据
         pressureX = 0;
         PressChartList.length = 0;
@@ -220,7 +221,7 @@
     'WF200D_10KPA',
     'WF183D_11BAR'
   ];
-  // setSelectionData(Ports, Models)
+  setSelectionData(Ports, Models)
 </script>
 <script src="js/chart.js"></script>
 <!-- 表格的序号 -->
