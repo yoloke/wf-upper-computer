@@ -221,7 +221,7 @@
     'WF200D_10KPA',
     'WF183D_11BAR'
   ];
-  setSelectionData(Ports, Models)
+  // setSelectionData(Ports, Models)
 </script>
 <script src="js/chart.js"></script>
 <!-- 表格的序号 -->
@@ -230,6 +230,7 @@
 </script>
 <script>
  guigeshu.addEventListener("click", function () {
+    Formium?.external.wfh.guigeshu(model);
   })
   document.getElementById('shade').style.display = "none";
   window.onkeydown = function () {
