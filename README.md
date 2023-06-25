@@ -1,7 +1,3 @@
-**通知：最新的低代码大屏系统GoView已开源，详见：[https://gitee.com/MTrun/go-view](https://gitee.com/MTrun/go-view)**
-
-![输入图片说明](https://gitee.com/MTrun/go-view/raw/master/readme/logo-t-y.png)
-
 ## 一、项目描述
 
 - 这里一个基于 Vue3、TypeScript、DataV、ECharts 框架的 " **数据大屏项目** "，使用 '.vue' 和 '.tsx' 文件实现界面，采用新版动态屏幕适配方案，支持数据动态刷新渲染、内部DataV、ECharts图表都支持自由替换。组件详情请点击下方 ECharts 和 DataV 文档。
