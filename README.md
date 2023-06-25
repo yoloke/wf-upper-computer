@@ -1,8 +1,15 @@
-函数：
-setSelectionData(Models, WF183DComPort) //设置选择框的值 传入传感器型号数组、 WF183D 的通讯口
+# setSelectionData
+
+setSelectionData(Models, WF183DComPort) 
+
+//设置选择框的值 传入传感器型号数组、 WF183D 的通讯口
+
+# addData
+
 addData(press,temp);//传入新数据（气压、温度）
 
-表单参数：
+# 表单参数
+
 {
 "sensorModel": "WF5803_20BAR", //传感器型号---默认数组第一个值
 "comPort": "0", // USB 通信
