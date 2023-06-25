@@ -7,6 +7,79 @@ let table2;
 let pressY = [];
 let tempY = [];
 let x = [];
+const modelInfo = {
+  WF5803_1BAR: {
+    min: 30 * u,
+    max: 150 * u,
+    url: "https://www.weifengheng.com/show-80.html"
+  },
+  WF5803_2BAR: {
+    min: 30 * u,
+    max: 250 * u,
+    url: "https://www.weifengheng.com/show-442.html"
+  },
+  WF5803_7BAR: {
+    min: 30 * u,
+    max: 800 * u,
+    url: "https://www.weifengheng.com/show-47.html"
+  },
+  WF5803_10BAR: {
+    min: 30 * u,
+    max: 1100 * u,
+    url: "https://www.weifengheng.com/show-443.html"
+  },
+  WF5803_20BAR: {
+    min: 30 * u,
+    max: 2100 * u,
+    url: "https://www.weifengheng.com/show-444.html"
+  },
+  WF5805_2BAR: {
+    min: 30 * u,
+    max: 250 * u,
+    url: "https://www.weifengheng.com/show-98.html"
+  },
+  WF100D_5KPA: {
+    min: -6 * u,
+    max: 6 * u,
+    url: "https://www.weifengheng.com/show-160.html"
+  },
+  WF100D_10KPA: {
+    min: -12 * u,
+    max: 12 * u
+  },
+  WF100D_40KPA: {
+    min: -50 * u,
+    max: 50 * u
+  },
+  WF100D_100KPA: {
+    min: -120 * u,
+    max: 120 * u
+  },
+  WF100D_200KPA: {
+    min: -100 * u,
+    max: 240 * u
+  },
+  WF100D_300KPA: {
+    min: -100 * u,
+    max: 360 * u,
+    url: "https://www.weifengheng.com/show-160.html"
+  },
+  WF200D_5KPA: {
+    min: -6 * u,
+    max: 6 * u,
+    url: "https://www.weifengheng.com/show-397.html"
+  },
+  WF200D_10KPA: {
+    min: -12 * u,
+    max: 12 * u,
+    url: "https://www.weifengheng.com/show-397.html"
+  },
+  WF183D_11BAR: {
+    min: 30 * u,
+    max: 1200 * u,
+    url: "https://www.weifengheng.com/show-195.html"
+  },
+};
 // 气压折线图
 var myChart1 = echarts.init(document.querySelector(".line .chart"));
 (function () {
@@ -15,16 +88,20 @@ var myChart1 = echarts.init(document.querySelector(".line .chart"));
     // 通过这个color修改两条线的颜色
     color: ["#00f2f1"],
     tooltip: {
-      trigger: "item",
+      trigger: "axis",
       formatter: function (params) {
-        return "气压：" + params[0].value;
+        params = params[0];
+        var time = params.value;
+        return "气压：" + time + unit;
       },
     },
     // 图例组件
     legend: {
       // 如果series 对象有name 值，则 legend可以不用写data
       // 修改图例组件 文字颜色
-      color: "#4c9bfd",
+      textStyle: {
+        color: '#fff'
+      },
       right: "10%",
     },
     grid: {
@@ -52,6 +129,7 @@ var myChart1 = echarts.init(document.querySelector(".line .chart"));
       splitLine: {
         show: false,
       },
+      show: false,
       data: x,
     },
     yAxis: {
@@ -89,6 +167,10 @@ var myChart1 = echarts.init(document.querySelector(".line .chart"));
       smooth: true,
       data: pressY,
       showSymbol: false,
+      tooltip: {
+        trigger: 'axis',
+        formatter: '{b}: {c}',
+      },
     }, ],
   };
   // 3. 把配置给实例对象
@@ -101,7 +183,6 @@ var myChart2 = echarts.init(document.querySelector(".line2 .chart"));
     tooltip: {
       trigger: "axis",
       formatter: function (params) {
-        console.log(params);
         params = params[0];
         var time = params.value;
         return "温度：" + time + "℃";
@@ -110,8 +191,9 @@ var myChart2 = echarts.init(document.querySelector(".line2 .chart"));
     legend: {
       right: "10%",
       data: ["温度"],
-
-      color: "rgba(255,255,255,.5)",
+      textStyle: {
+        color: '#fff'
+      },
       fontSize: "12",
     },
     grid: {
@@ -138,7 +220,6 @@ var myChart2 = echarts.init(document.querySelector(".line2 .chart"));
       },
       data: x,
     },
-
     yAxis: [{
       type: "value",
       minInterval: 1,
@@ -458,7 +539,6 @@ var myChart4 = echarts.init(document.querySelector(".gauge2 .chart"));
 // -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 // 添加数据
-
 let addData = function () {};
 // 清空数据
 function clearData() {
@@ -466,15 +546,13 @@ function clearData() {
   pressY.length = 0;
   x.length = 0;
   tableData.length = 0;
-  // PressChartList.length = 0;
-  // TempChartList.length = 0;
 }
 // 渲染表格
 layui.use("table", function () {
   table1 = layui.table;
   table1.render({
-    elem: "#demo",
-    id: "table11",
+    elem: "#table",
+    id: "table",
     data: tableData,
     cols: [
       [{
@@ -496,114 +574,29 @@ layui.use("table", function () {
     ],
   });
 });
-// 渲染弹框表格
-layui.use("table", function () {
-  table2 = layui.table;
-  table2.render({
-    elem: "#popupTable",
-    data: tableData,
-    limit: 300,
-    id: "table22",
-    cols: [
-      [{
-          field: "tabelTime",
-          title: "创建时间",
-          align: "center"
-        },
-        {
-          field: "pressUnit",
-          title: "气压",
-          align: "center"
-        },
-        {
-          field: "tempUnit",
-          title: "温度",
-          align: "center"
-        },
-        {
-          field: "rawData",
-          title: "寄存器值",
-          align: "center"
-        },
-      ],
-    ],
-  });
-});
-//这里只是用了一个标示进行输出与不输出的控制
-let flag = false;
-
 start.addEventListener("click", function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://api.app.local/Board/Start', true);
+  xhr.send();
   clearData();
-  addData = function (press, temp, rawData) {
-    if (model == "WF5803_1BAR") {
-      min = 30 * u;
-      max = 150 * u;
-    } else if (model == "WF5803_2BAR") {
-      min = 30 * u;
-      max = 250 * u;
-    } else if (model == "WF5803_7BAR") {
-      min = 30 * u;
-      max = 800 * u;
-    } else if (model == "WF5803_10BAR") {
-      min = 30 * u;
-      max = 1100 * u;
-    } else if (model == "WF5803_20BAR") {
-      min = 30 * u;
-      max = 2100 * u;
-    } else if (model == "WF5805_2BAR") {
-      min = 30 * u;
-      max = 250 * u;
-    } else if (model == "WF100D_5KPA") {
-      min = -6 * u;
-      max = 6 * u;
-    } else if (model == "WF100D_10KPA") {
-      min = -12 * u;
-      max = 12 * u;
-    } else if (model == "WF100D_40KPA") {
-      min = -50 * u;
-      max = 50 * u;
-    } else if (model == "WF100D_100KPA") {
-      min = -120 * u;
-      max = 120 * u;
-    } else if (model == "WF100D_200KPA") {
-      min = -100 * u;
-      max = 240 * u;
-    } else if (model == "WF100D_300KPA") {
-      min = -100 * u;
-      max = 360 * u;
-    } else if (model == "WF200D_5KPA") {
-      min = -6 * u;
-      max = 6 * u;
-    } else if (model == "WF200D_10KPA") {
-      min = -12 * u;
-      max = 12 * u;
-    } else if (model == "WF183D_11BAR") {
-      min = 30 * u;
-      max = 1200 * u;
+  addData = function (press, temp) {
+    const modelInfoObj = modelInfo[params.sensorModel];
+    if (modelInfoObj) {
+      min = modelInfoObj.min;
+      max = modelInfoObj.max;
     }
-    press = press * u;
-    press = press.toFixed(4);
-    // if (press < pressMinY) pressMinY = Math.ceil(press) - 1;
-    // if (press > pressMaxY) pressMaxY = Math.ceil(press) + 1;
-
-    // if (temp < tempMinY) tempMinY = Math.ceil(temp) - 1;
-    // if (temp > tempMaxY) tempMaxY = Math.ceil(temp) + 1;
+    if (typeof press === 'number') {
+      press = press.toFixed(4);
+    }
     pressY.push(Number(press));
-    // pressY = pressY.slice(-300);
     tempY.push(Number(temp));
-    // tempY = tempY.slice(-300);
     // x 轴自增
-    x++;
-    if (pressY.length > 300) {
+    x.push(x[x.length - 1] + 1);
+    if (pressY.length > 200) {
       pressY.shift();
       tempY.shift();
+      x.shift();
     }
-    // PressChartList.push(PressChart(press));
-    // TempChartList.push(TempChart(temp));
-
-    // PressChartList = PressChartList.slice(0, 300)
-    // TempChartList = TempChartList.slice(0, 300)
-
     myChart1.setOption({
       xAxis: {
         data: x,
@@ -669,64 +662,46 @@ start.addEventListener("click", function () {
         },
       ],
     });
-    let pressUnit = press + " " + unit;
-    var tempUnit = temp + " " + "℃";
+    let pressUnit = `${press} ${unit}`;
+    let tempUnit = `${temp} ℃`;
 
+    tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
     tableData.unshift({
       pressUnit,
       tempUnit,
       tabelTime,
-      rawData
     });
-
     tableData = tableData.slice(0, 300);
-    // 重新创建时间
-    tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
-    table1.reload("table11", {
-      data: tableData,
-    });
-    table2.reload("table22", {
+
+    table1.reload("table", {
       data: tableData,
     });
   };
-  document.querySelector("#models").disabled = true;
-  document.querySelector("#sensorUnit").disabled = true;
-  $("#start").addClass("layui-btn-disabled").attr("disabled", true);
-  layui.use("form", function () {
-    var form = layui.form;
-    // 渲染选择框
-    form.render("select");
-  });
-  // Formium ? .external.wfh.start(port, model, unit);
+  $("#showPopup").addClass("layui-btn-disabled").attr("disabled", true);
+  $(".export").addClass("layui-btn-disabled").attr("disabled", true);
+  $("#start").css("display", "none");
+  $(".stop").css("display", "block");
+  //  Formium?.external.wfh.start(port, model, unit);
 });
 
-stop.addEventListener("click", function () {
-  // Formium ? .external.wfh.stop();
-  // 重新定义函数
-  $("#start").removeClass("layui-btn-disabled").attr("disabled", false);
-  document.querySelector("#models").disabled = false;
-  document.querySelector("#sensorUnit").disabled = false;
-  layui.use("form", function () {
-    var form = layui.form;
-    // 渲染选择框
-    form.render("select");
-  });
-  addData = function () {};
-});
+function stopApp() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://api.app.local/Board/Stop', true);
+  xhr.send();
+  //  Formium?.external.wfh.stop();
+  $("#start").css("display", "block");
+  $(".stop").css("display", "none");
+  $("#showPopup").removeClass("layui-btn-disabled").attr("disabled", false);
+  $(".export").removeClass("layui-btn-disabled").attr("disabled", false);
+}
 
-setInterval(() => {
-  let A = 49;
-  let B = 50;
-  let press = ((B - A) * Math.random() + A).toFixed(2);
-  let temp = ((B - A) * Math.random() + A).toFixed(2);
-  let rowData = "152,241,192,26,231,0,@,@";
-  setData = addData(press, temp, rowData);
-}, 1000);
+stop.addEventListener("click", stopApp);
 
-// 4. 让图表跟随屏幕自动的去适应
-window.addEventListener("resize", function () {
-  myChart1.resize();
-  myChart2.resize();
-  myChart3.resize();
-  myChart4.resize();
-});
+// setInterval(() => {
+//   let A = 49;
+//   let B = 50;
+//   let press = ((B - A) * Math.random() + A).toFixed(2);
+//   let temp = ((B - A) * Math.random() + A).toFixed(2);
+//   let rowData = "152,241,192,26,231,0,@,@";
+//   setData = addData(press, temp, rowData);
+// }, 1000);

@@ -10,83 +10,150 @@
 </head>
 
 <body>
-  <div class="shade" id='shade'>
-    <div class="tankuang">
-      <div id="header">
-        <div id="header-right" onclick="hidder()">x</div>
-      </div>
-      <div class="formContain">
-        <div class="panel" id="panelTable">
-          <table id="popupTable" class="table" lay-filter="test"></table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 头部的盒子 -->
   <header>
     <h1>深圳市伟烽恒科技有限公司</h1>
-    <div class="showTime">
-      <div class="time"></div>
-      <div class="date">
-        <span class="date1"></span>
+  </header>
+  <!-- 基础信息 -->
+  <div class="basicData ">
+    <div class="show">
+      <div>
+        <img src="./images/example.svg" alt="SVG示例">
+        <span>通讯口</span>
+        <h1 id="port">USB</h1>
+      </div>
+      <div><img src="./images/example.svg" alt="SVG示例">
+        <span>传感器型号</span>
+        <h1 id="model">WF5803_1BAR</h1>
+        <a id="detail-link" href="https://www.weifengheng.com/index.php?c=content&a=search&kw=WF5803" target="_blank">
+          <button class="layui-btn layui-btn-primary layui-border-green">详细资料</button>
+        </a>
+
+      </div>
+      <div><img src="./images/example.svg" alt="SVG示例">
+        <span>气压单位</span>
+        <h1 id="unit">kPa</h1>
       </div>
     </div>
-    <!-- +- -->
-  </header>
-
-  <!-- 控制台部分 -->
-  <div class="control">
-    <form class="layui-form" action="">
-
-
-      <div class="layui-form-item" id="show">
-        <label class="layui-form-label">通讯口</label>
-        <div class="layui-input-block">
-          <select id="ports" name="ports" lay-filter="ports"></select>
-        </div>
-      </div>
-      <div class="layui-form-item">
-        <label class="layui-form-label">传感器</label>
-        <div class="layui-input-block">
-          <select id="models" name="models" lay-verify="required" lay-filter="models"></select>
-        </div>
-      </div>
-      <a class="layui-btn layui-btn-primary layui-border-green guigeshu" target="_blank">详细资料</a>
-      <div class="layui-form-item">
-        <label class="layui-form-label">气压单位</label>
-        <div class="layui-input-block">
-          <select id="sensorUnit" name="sensorUnit" lay-verify="required" lay-filter="unit">
-            <option value=1>kPa</option>
-            <option value=0.01>bar</option>
-            <option value=0.14503774>psi</option>
-            <option value=10>hPa</option>
-            <option value=10.0>mbar</option>
-            <option value=0.001>MPa</option>
-            <option value=1000>Pa</option>
-            <option value=7.50061576>mmHg </option>
-          </select>
-        </div>
-      </div>
-      <div class="layui-form-item buttonItem">
-        <div class="layui-input-block">
-          <button class="layui-btn start" lay-filter="formDemo" id="start">运行</button>
-          <a class="layui-btn layui-btn-danger stop">停止</a>
-        </div>
-      </div>
-    </form>
+    <div class="operate">
+      <button class="layui-btn start" lay-filter="formDemo" id="start">运行</button>
+      <button class="layui-btn layui-btn-danger stop" style="display: none;">停止</button>
+      <button class="layui-btn" id="showPopup">设置</button>
+      <button class="layui-btn export">导出</button>
+    </div>
+    <div class="panel-footer"></div>
   </div>
-  <!-- 信息展示主体部分 -->
-  <section class="mainbox">
+  <!-- 弹窗表单组件 -->
+  <div id="formDemo" style="display:none;">
+    <div class="layui-timeline">
+      <div class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+        <div class="layui-timeline-content layui-text">
+          <h3 class="layui-timeline-title">基本设置</h3>
+          <form class="layui-form" action="" lay-filter="formData">
 
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">传感器型号</label>
+                <div class="layui-input-inline">
+                  <select id="sensorModel" name="sensorModel" lay-filter="sensorModel">
+                  </select>
+                </div>
+              </div>
+
+              <div class="layui-inline">
+                <label class="layui-form-label">USB通信</label>
+                <div class="layui-input-inline">
+                  <select name="comPort" id="comPort" lay-verify="required">
+                    <option value=0>0</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">气压单位</label>
+                <div class="layui-input-inline">
+                  <select id="sensorUnit" name="sensorUnit" lay-verify="required" lay-filter="unit">
+                    <option value=0>kPa</option>
+                    <option value=1>bar</option>
+                    <option value=2>psi</option>
+                    <option value=3>hPa</option>
+                    <option value=4>mbar</option>
+                    <option value=5>MPa</option>
+                    <option value=6>Pa</option>
+                    <option value=7>mmHg </option>
+                  </select>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">产品通讯</label>
+                <div class="layui-input-inline">
+                  <select id="comMode" name="comMode">
+                    <option value=0>USB</option>
+                    <option value=1>Serial</option>
+
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="layui-timeline-item">
+        <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+        <div class="layui-timeline-content layui-text">
+          <h3 class="layui-timeline-title">实验室设置</h3>
+          <form class="layui-form" action="" lay-filter="offsetData">
+            <div class="layui-form-item">
+              <div class="layui-inline">
+                <label class="layui-form-label">气压偏移量</label>
+                <div class="layui-input-inline">
+                  <input type="number" id="PressOffset" name="PressOffset" value="0" autocomplete="off"
+                    class="layui-input" step="0.01">
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">温度偏移量</label>
+                <div class="layui-input-inline">
+                  <input type="number" id="TempOffset" name="TempOffset" value="0" autocomplete="off"
+                    class="layui-input" step="0.01">
+                </div>
+              </div>
+            </div>
+            <div class="layui-form-item" style="margin: 0;">
+              <div class="layui-form-label">WF183D数据类型</div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block" style=" margin-left: 15px">
+                <input type="radio" name="DataTypeFor183D" value='0' title="标准气压" checked>
+                <input type="radio" name="DataTypeFor183D" value='1' title="原始温度">
+                <input type="radio" name="DataTypeFor183D" value='2' title="原始气压">
+                <input type="radio" name="DataTypeFor183D" value='3' title="校准温度">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="layui-timeline-item">
+        <div class="layui-timeline-content layui-text">
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <section class="mainbox">
     <div class="column">
       <div class="panel line">
-        <h2>气压变化</h2>
+        <h2 style="letter-spacing: 6px;">气压变化</h2>
         <div class="chart">图表</div>
         <div class="panel-footer"></div>
       </div>
-
       <div class="panel line2">
-        <h2>温度变化</h2>
+        <h2 style="letter-spacing: 6px;">温度变化</h2>
         <div class="chart">图表</div>
         <div class="panel-footer"></div>
       </div>
@@ -106,10 +173,9 @@
       </div>
       <div class="formContain">
         <div class="panel" id="panelTable">
-          <table id="demo" class="table"></table>
+          <table id="table" class="table"></table>
         </div>
       </div>
-    </div>
     </div>
   </section>
   <div class="footer"></div>
@@ -120,6 +186,56 @@
 <script src="js/flexible.js"></script>
 <script src="js/utils.js"> </script>
 <script>
+  let params = {}
+  // 点击按钮弹出表单组件
+  layui.use('layer', function () {
+    const layer = layui.layer;
+    params.sensorModel = 0;
+    $('#showPopup').on('click', () => {
+      layer.open({
+        type: 1,
+        title: '设置', // 设置标题
+        content: $('#formDemo'),
+
+        skin: 'my-layer', // 添加自定义样式类名
+        btn: ['取消', '提交'],
+        yes: (index, layero) => {
+          layer.close(index); // 关闭弹窗
+          return false; // 阻止弹窗自动关闭
+        },
+        btn2: (index, layero) => {
+          const formElem = layero.find('form'); // 获取表单元素
+          const formData = formElem.serializeArray(); // 获取表单数据数组
+          const data = {}; // 用于保存表单数据的对象
+          // 遍历数组获取表单数据
+          formData.forEach(item => {
+            data[item.name] = item.value;
+          });
+          params = data
+          var selectedText = $("#sensorUnit option:selected").text();
+          pressure.innerHTML = `气压 ${selectedText}`;
+          let model = data.sensorModel.split('_')[0];
+          $("#detail-link").attr("href", `https://www.weifengheng.com/index.php?c=content&a=search&kw=${model}`);
+          $('#port').text(data.comPort)
+          var selectText = layui.$('#sensorModel').find("option:selected").text();
+          $("#model").text(selectText);
+
+          $('#unit').text(selectedText)
+          var xhr = new XMLHttpRequest();
+          var url = "http://api.app.local/Board/UpdateSetting";
+          xhr.open("POST", url, true);
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              var response = xhr.responseText;
+            }
+          };
+          xhr.send(JSON.stringify(data));
+          layer.close(index); // 关闭弹窗
+        },
+      });
+    });
+  });
   let start = document.querySelector(".start");
   let stop = document.querySelector(".stop");
   let guigeshu = document.querySelector(".guigeshu");
@@ -127,8 +243,6 @@
   let u = 1; // 气压单位换算系数
   let unit = 'Kpa' // 气压单位
   let port;
-  let model = 'WF5803_1BAR'; // 传感器型号 
-
   // 两个折线图的x坐标
   let pressureX = 0;
   let tempX = 0;
@@ -138,110 +252,126 @@
   let PressChartList = [];
   // 温度值 y坐标数组
   let TempChartList = [];
-
   // 表格中的时间
   let tabelTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
-
-
   // 气压仪表盘y轴的范围
   let pressMinY = 9999;
   let pressMaxY = -9999;
-
   // 温度仪表盘y轴的范围
   let tempMinY = 9999;
   let tempMaxY = -9999;
+  // debug
+  // let Models = ["4234234", "eweqweqwe", "fdsfdsf", "dsdss"]
+  function setSelectionData(Models) {
+    $('#comMode').prop('disabled', true);
 
+    // 传感器型号
+    var selectElem = document.getElementById('sensorModel');
+    var comPort = document.getElementById('comPort');
+    // 添加选项
+    Models.forEach((model, index) => {
+      $(selectElem).append(`<option value=${index}>${model}</option>`);
+    });
 
-  // 选择框赋值
-  function setSelectionData(Ports, Models, SensorUnit) {
-    var select1Parent = document.getElementById('show');
-    // 端口号 选择框
-    var select1 = document.getElementById('ports');
-    if (Ports.length == 0) select1Parent.style.display = 'none';
-    else {
-      for (var i = 0; i < Ports.length; i++) {
-        var option = document.createElement("option");
-        option.setAttribute("value", Ports[i]);
-        option.innerText = Ports[i];
-        select1.appendChild(option)
-      };
-      port = Ports[0]
-    }
-    // 传感器型号 选择框
-    var select2 = document.getElementById('models');
-    for (var i = 0; i < Models.length; i++) {
-      var option = document.createElement("option");
-      option.setAttribute("value", Models[i]);
-      option.innerText = Models[i];
-      select2.appendChild(option)
-    };
     layui.use('form', function () {
       var form = layui.form;
-      // 渲染选择框
-      form.render("select");
-      // 监听端口号
-      form.on("select(ports)", function (data) {
-        port = data.value
+      form.render();
+      // 监听传感器型号选择
+      form.on("select(sensorModel)", function (data) {
+        if (data.elem[data.elem.selectedIndex].text === "WF183D_11BAR") {
+          $('#comMode').val("1");
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'http://api.app.local/Board/Ports', true);
+          xhr.send();
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              const WF183DComPort = JSON.parse(xhr.responseText);
+              $('#comPort').empty()
+                .append(WF183DComPort.map(item => `<option value="${item}">${item}</option>`))
+                .val("1");
+              form.render('select');
+            }
+          };
+
+        } else {
+          $('#comMode').val("0");
+          $('#comPort').empty().html('<option value="0">0</option><option value="1">1</option>');
+          form.render('select');
+        }
         return false;
       });
-      // 监听产品详情按钮
-      form.on("select(models)", function (data) {
-        model = data.value
-        return false;
-      });
-      // 监听气压单位
+
+      // 监听单位选择
       form.on('select(unit)', function (data) {
         u = data.value
         unit = data.elem[data.elem.selectedIndex].text;
-        pressure.innerHTML = "气压" + " " + unit;
-        console.log("ssssss",unit);
-        // 清空 气压折现图 数据
-        pressureX = 0;
-        PressChartList.length = 0;
       });
     });
-
   }
-
-  var Ports = [1, 2, 3, 4, 5, 6];
-  var Models = [
-    'WF5803_1BAR',
-    'WF5803_2BAR',
-    'WF5803_7BAR',
-    'WF5803_10BAR',
-    'WF5803_20BAR',
-    'WF5805_2BAR',
-    'WF100D_5KPA',
-    'WF100D_10KPA',
-    'WF100D_40KPA',
-    'WF100D_100KPA',
-    'WF100D_200KPA',
-    'WF100D_300KPA',
-    'WF200D_5KPA',
-    'WF200D_10KPA',
-    'WF183D_11BAR'
-  ];
-  // setSelectionData(Ports, Models)
+  // debug
+  // setSelectionData(Models)
 </script>
 <script src="js/chart.js"></script>
-<!-- 表格的序号 -->
-<script type="text/html" id="xuhao">
-  {{d.LAY_TABLE_INDEX+1}}
-</script>
 <script>
- guigeshu.addEventListener("click", function () {
-    Formium?.external.wfh.guigeshu(model);
-  })
-  document.getElementById('shade').style.display = "none";
-  window.onkeydown = function () {
-    if (event.keyCode == 115) {
-      document.getElementById('shade').style.display = "block";
-    }
-  }
-  function hidder() {
-    document.getElementById('shade').style.display = "none";
-  }
+  $('.footer').on('click', function () {
+    window.open('https://www.weifengheng.com/', '_blank');
+  });
+  $(".export").on("click", function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://api.app.local/Board/Export', true);
+    xhr.send();
+  });
 </script>
 
+<script>
+  function getModels() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://api.app.local/Board/Models', true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const Models = JSON.parse(xhr.responseText);
+        setSelectionData(Models);
+      }
+    };
+  }
+  getModels();
+  $(document).ready(function () {
+    // 执行浏览器初始化事件处理代码
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://api.app.local/Board/Setting', true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        params = JSON.parse(xhr.responseText);
+        console.log(params);
+        // 设置下拉框选中的值
+        layui.use('form', function () {
+          var form = layui.form;
+          form.val('formData', {
+            'sensorModel': params.sensorModel,
+            'comMode': params.ComMode,
+            'comPort': params.ComPort,
+            'sensorUnit': params.sensorUnit
+          });
+
+          form.val('offsetData', {
+            'PressOffset': params.PressOffset,
+            'TempOffset': params.TempOffset,
+            'DataTypeFor183D': params.DataTypeFor183D
+          });
+          form.render('select');
+          var selectedText = $("#sensorUnit option:selected").text();
+          pressure.innerHTML = `气压 ${selectedText}`;
+          $('#unit').text(selectedText)
+          var selectText = layui.$('#sensorModel').find("option:selected").text();
+          $("#model").text(selectText);
+        });
+      }
+    };
+    stopApp()
+  });
+
+</script>
 
 </html>
