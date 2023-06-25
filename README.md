@@ -1,3 +1,7 @@
+# 技术栈
+
+HTML+CSS+JavaScript+jQuery+LayUI
+
 # setSelectionData
 
 setSelectionData(Models, WF183DComPort) 
@@ -18,3 +22,9 @@ addData(press,temp);//传入新数据（气压、温度）
 "PressOffset": "",//气压偏移量
 "TempOffset": ""//温度偏移量
 }
+
+# 效果图
+
+![image-20230625102837745](https://could-img.oss-cn-hangzhou.aliyuncs.com/wf/image-20230625102837745.png)
+
+![image-20230625102911510](https://could-img.oss-cn-hangzhou.aliyuncs.com/wf/image-20230625102911510.png)

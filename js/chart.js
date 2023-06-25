@@ -697,11 +697,11 @@ function stopApp() {
 
 stop.addEventListener("click", stopApp);
 
-// setInterval(() => {
-//   let A = 49;
-//   let B = 50;
-//   let press = ((B - A) * Math.random() + A).toFixed(2);
-//   let temp = ((B - A) * Math.random() + A).toFixed(2);
-//   let rowData = "152,241,192,26,231,0,@,@";
-//   setData = addData(press, temp, rowData);
-// }, 1000);
+setInterval(() => {
+  let A = 49;
+  let B = 50;
+  let press = ((B - A) * Math.random() + A).toFixed(2);
+  let temp = ((B - A) * Math.random() + A).toFixed(2);
+  let rowData = "152,241,192,26,231,0,@,@";
+  setData = addData(press, temp, rowData);
+}, 1000);
