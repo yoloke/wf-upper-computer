@@ -1,5 +1,6 @@
 <template>
-  <div class="myModal" ref="myModal">myModal
+  <div class="myModal" ref="myModal">
+    myModal
     <a-modal
       :getContainer="() => $refs.myModal"
       v-model:visible="visible"
@@ -74,7 +75,10 @@
             <a-row :gutter="24">
               <a-col :span="12">
                 <a-form-item label="数据刷新" name="RefreshTime">
-                  <a-input placeholder="数据刷新速度" addon-after="ms" v-model:value="formState.RefreshTime"/>
+                  <a-input
+                    placeholder="数据刷新速度"
+                    addon-after="ms"
+                    v-model:value="formState.RefreshTime" />
                 </a-form-item>
               </a-col>
               <a-col :span="12">
@@ -93,12 +97,12 @@
             <a-row :gutter="24">
               <a-col :span="12">
                 <a-form-item label="气压偏移量" name="PressOffset">
-                  <a-input v-model:value="formState.PressOffset"/>
+                  <a-input v-model:value="formState.PressOffset" />
                 </a-form-item>
               </a-col>
               <a-col :span="12">
                 <a-form-item label="温度偏移量" name="PressOffset">
-                  <a-input v-model:value="formState.TempOffset"/>
+                  <a-input v-model:value="formState.TempOffset" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -139,8 +143,9 @@ import {
   getcomPort,
   updatedSetting,
 } from "@/api/index.js";
-import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { ref, reactive, onMounted, onUnmounted, defineEmits } from "vue";
 import useDraw from "@/utils/useDraw";
+
 
 const handleChange = (value: string) => {
   if (value == "WF183D_11BAR") {
@@ -154,7 +159,7 @@ const onFinish = (values: any) => {
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
-const visible = ref<boolean>(true);
+const visible = ref<boolean>(false);
 
 // * 适配处理
 const { appRef, calcRate, windowDraw, unWindowDraw } = useDraw();
@@ -170,10 +175,15 @@ let formState = ref({
   PressOffset: null,
   TempOffset: null,
   DataTypeFor183D: null,
-  RefreshTime:null,
+  RefreshTime: null,
 });
 const handleOk = (e: MouseEvent) => {
+  
   visible.value = false;
+  defineExpose({
+  formState: formState,
+ 
+});
 };
 onMounted(() => {
   // // todo 屏幕适应
@@ -193,9 +203,12 @@ onMounted(() => {
     console.log(formState.value);
   });
 });
-const showModal = () => {
-  visible.value = true;
-};
+defineExpose({
+  someMethod() {
+    visible.value = true;
+  },
+});
+
 // onUnmounted(() => {
 //   unWindowDraw();
 // });

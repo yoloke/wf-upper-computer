@@ -1,6 +1,5 @@
 <template>
   <div id="index" ref="appRef">
-    <demo ref="dd"></demo>
     <div class="bg">
       <dv-loading v-if="loading">加载中</dv-loading>
 
@@ -51,10 +50,10 @@
               <a-button
                 type="primary"
                 size="large"
-                @click="$refs.dd.showModal()">
+               >
                 运行
               </a-button>
-              <a-button type="primary" size="large" ghost>设置</a-button>
+              <a-button type="primary" size="large" ghost  @click="form.someMethod">设置</a-button>
               <a-button type="primary" size="large" ghost>导出</a-button>
               <span
                 class="iconfont icon-alert myIcon"
@@ -92,11 +91,12 @@
               <div class="box-item-footer"></div>
             </div>
           </div>
-          <div ref="divDom">fffffffff</div>
+          
         </div>
       </div>
     </div>
   </div>
+  <Form ref="form"></Form>
 </template>
 
 <script lang="ts" setup>
@@ -117,7 +117,9 @@ watchEffect(() => {
 });
 
 const isGreen = ref(false);
-import demo from "./form-settings.vue";
+import Form from "./Form.vue";
+// 创建对子组件实例的引用
+const form = ref(null);
 import { getSensorList, getPressUnits } from "@/api/index.js";
 import Chart from "../center/chart/draw";
 import { ref, reactive, onMounted, onUnmounted, watchEffect } from "vue";
@@ -232,7 +234,7 @@ const generateRandomData = () => {
   const randomTemp = (Math.random() * 100).toFixed(2) + "℃";
   return [randomTime, randomKpa, randomTemp];
 };
-const divDom = ref(null);
+
 const addData = () => {
   const newData = generateRandomData();
   //
@@ -243,8 +245,7 @@ const addData = () => {
 };
 // 在适当的时机调用addData函数，例如使用定时器/
 // setInterval(addData, 1000);
-// * 颜色
-const decorationColors = ["#568aea", "#000000"];
+
 // * 加载标识
 const loading = ref<boolean>(true);
 // * 时间内容
@@ -256,14 +257,15 @@ const timeInfo = reactive({
 });
 // * 适配处理
 const { appRef, calcRate, windowDraw, unWindowDraw } = useDraw();
-// 生命周期
+
 let sensorModelList = reactive([]);
 let pressUnitsList = reactive([]);
+
 onMounted(() => {
   // scrollBoard.value = this.$refs.scrollBoard;
   // addData();
   cancelLoading();
-  handleTime();
+
   // todo 屏幕适应
   windowDraw();
   calcRate();
@@ -282,22 +284,11 @@ onUnmounted(() => {
   clearInterval(timeInfo.setInterval);
 });
 
-// methods
-// todo 处理 loading 展示
+// 处理 loading 展示
 const cancelLoading = () => {
   setTimeout(() => {
     loading.value = false;
   }, 500);
-};
-
-// todo 处理时间监听
-const handleTime = () => {
-  timeInfo.setInterval = setInterval(() => {
-    const date = new Date();
-    timeInfo.dateDay = formatTime(date, "HH: mm: ss");
-    timeInfo.dateYear = formatTime(date, "yyyy-MM-dd");
-    timeInfo.dateWeek = WEEK[date.getDay()];
-  }, 1000);
 };
 </script>
 
