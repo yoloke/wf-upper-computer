@@ -1,0 +1,319 @@
+#index {
+  color: #d3d6dd;
+  width: 1920px;
+  height: 1080px;
+  position: absolute;
+  // top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  transform-origin: left top;
+  .bg {
+    width: 100%;
+    height: 100%;
+    padding: 0 16px 0 16px;
+  }
+
+  .host-body {
+    .title {
+      position: relative;
+      height: 85px;
+      background-image: url("../../assets/img/header-bg.webp");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+
+      .title-text {
+        font-size: 38px;
+        height: 100%;
+        font-family: "MyFont", sans-serif;
+        font-weight: 400;
+        background: linear-gradient(180deg, #93afff 0%, #dbe4ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .title-version {
+        position: absolute;
+        right: 22px;
+        top: 0;
+        line-height: 45px;
+        font-size: 13px;
+        font-weight: 400;
+        color: rgba(25, 252, 222, 1);
+      }
+    }
+    .company-info {
+      height: 48px;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(207, 207, 207, 1);
+    }
+    .show {
+      height: 124px;
+      margin-bottom: 16px;
+      font-size: 26.8px;
+
+      img {
+        width: 46px;
+      }
+      .data-title {
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+        margin: 0 20px;
+        font-size: 26.8px;
+      }
+      .custom-button {
+        background-color: transparent;
+        border-color: #19fcde;
+      }
+      .data {
+        font-size: 32px;
+        opacity: 1;
+        color: rgba(25, 252, 222, 1);
+        font-family: "MyFont", sans-serif;
+        margin-right: 10px;
+      }
+    }
+    .body-box {
+      display: flex;
+      flex-direction: column;
+
+      .center-box {
+        margin-bottom: 16px;
+        .title {
+          width: 329px;
+          height: 53px;
+          color: rgba(255, 255, 255, 1);
+          background-image: url("../../assets/img/line-chart-title.webp");
+          span {
+            height: 100%;
+            font-size: 30px;
+            font-family: "MyFont", sans-serif;
+            font-weight: 400;
+            background: linear-gradient(
+              90deg,
+              rgba(212, 232, 255, 1) 0%,
+              rgba(224, 251, 255, 1) 46.84%,
+              rgba(204, 239, 255, 1) 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        }
+      }
+
+      // 底部数据
+      .bottom-box {
+        display: grid;
+        // 创建六个等宽的网格列，每个列的宽度都是网格容器剩余空间的均等份额。
+        grid-template-columns: 1fr 1fr 2fr;
+        grid-gap: 16px;
+        height: 340px;
+      }
+    }
+  }
+}
+.box-item {
+  position: relative;
+  // 对背景应用一个 10 像素的高斯模糊效果。
+  backdrop-filter: blur(2px);
+  opacity: 0.8;
+  box-shadow: inset 0px 0px 27px rgba(27, 113, 194, 1);
+  z-index: 999;
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border-left: 3px solid #006ab7;
+    border-top: 3px solid #006ab7;
+    content: "";
+    z-index: 999;
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border-right: 3px solid #006ab7;
+    border-top: 3px solid #006ab7;
+    content: "";
+  }
+
+  .box-item-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    &::before {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 36px;
+      height: 36px;
+      border-left: 3px solid #006ab7;
+      border-bottom: 3px solid #006ab7;
+      content: "";
+    }
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      border-right: 3px solid #006ab7;
+      border-bottom: 3px solid #006ab7;
+      content: "";
+    }
+  }
+}
+::v-deep(.dv-scroll-board .header .header-item) {
+  font-size: 18px !important;
+  color: rgba(25, 252, 222, 1) !important;
+}
+
+.myModal {
+  ::v-deep .ant-modal-content {
+    position: relative;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+      0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    pointer-events: auto;
+    opacity: 0.96;
+    .ant-modal-header {
+      padding: 25px;
+      border-bottom: none;
+      background: #193968;
+      border-radius: 8px 8px 0 0;
+      .ant-modal-title {
+        margin: 0;
+        color: #fff;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 12px;
+        word-wrap: break-word;
+      }
+    }
+    .ant-modal-body {
+      padding: 42px;
+      padding-bottom: 0;
+      font-size: 16px;
+      line-height: 1.5715;
+      word-wrap: break-word;
+      background: #2c66b8;
+
+      .model-body-border-bottom {
+        width: 100%;
+        height: 1px;
+        opacity: 0.2;
+        border: 1px solid #19fcde;
+      }
+    }
+    .ant-modal-footer {
+      padding: 10px 16px;
+      padding-bottom: 20px;
+      text-align: right;
+      background: #2c66b8;
+      border: none;
+      border-radius: 0 0 8px 8px;
+    }
+  }
+}
+
+::v-deep .ant-form-item-label > label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  height: 32px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+::v-deep .ant-timeline {
+  .a-timeline-item-title {
+    color: rgba(229, 229, 229, 1);
+    font-size: 18px;
+    height: 50px;
+  }
+  .ant-timeline-item-head {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(
+      180deg,
+      rgba(43, 143, 143, 1) 0%,
+      rgba(24, 254, 254, 1) 100%
+    );
+    border: 2px solid transparent;
+    border-radius: 100px;
+  }
+  .ant-timeline-item-tail {
+    position: absolute;
+    top: 10px;
+    left: 4px;
+    height: calc(100% + 136px);
+    border-left: 0.41px solid rgba(24, 254, 254, 0.2);
+  }
+}
+
+::v-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+::v-deep.ant-input {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.ff {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+::v-deep .ant-form-item {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  font-feature-settings: "tnum";
+  margin-bottom: 30px;
+  vertical-align: top;
+}
+
+::v-deep .ant-form label {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+}
