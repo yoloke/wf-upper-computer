@@ -1,6 +1,6 @@
 <template>
   <div class="percent">
-    <chart :tips="rate[0].tips" :colorObj="rate[0].colorData" />
+    <chart />
 
     <chart :tips="rate[1].tips" :colorObj="rate[1].colorData" />
   </div>

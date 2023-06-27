@@ -5,12 +5,14 @@ const {
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:9981',
-        changeOrigin: true,
-      }
-    }
-  }
+  publicPath: './',
+  
+  // devServer: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'http://localhost:9981',
+  //       changeOrigin: true,
+  //     }
+  //   }
+  // }
 });

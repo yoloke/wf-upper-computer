@@ -14,7 +14,7 @@
   }
 
   .host-body {
-    .title {
+    .header {
       position: relative;
       height: 85px;
       background-image: url("../../assets/img/header-bg.webp");
@@ -46,31 +46,31 @@
       font-weight: 400;
       color: rgba(207, 207, 207, 1);
     }
-    .show {
+    .console {
       height: 124px;
       margin-bottom: 16px;
       font-size: 26.8px;
-
       img {
         width: 46px;
       }
-      .data-title {
-        font-weight: 400;
-        color: rgba(255, 255, 255, 1);
-        margin: 0 20px;
-        font-size: 26.8px;
+      .content-item {
+        .data-title {
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+          margin: 0 20px;
+          font-size: 26.8px;
+        }
+        .data-content {
+          font-size: 32px;
+          opacity: 1;
+          color: rgba(25, 252, 222, 1);
+          font-family: "MyFont", sans-serif;
+          margin-right: 10px;
+        }
       }
-      .custom-button {
-        background-color: transparent;
-        border-color: #19fcde;
-      }
-      .data {
-        font-size: 32px;
-        opacity: 1;
-        color: rgba(25, 252, 222, 1);
-        font-family: "MyFont", sans-serif;
-        margin-right: 10px;
-      }
+       .console-button{
+          width: 14%;
+        }
     }
     .body-box {
       display: flex;
@@ -83,6 +83,8 @@
           height: 53px;
           color: rgba(255, 255, 255, 1);
           background-image: url("../../assets/img/line-chart-title.webp");
+          background-size: 100% 100%;
+      background-repeat: no-repeat;
           span {
             height: 100%;
             font-size: 30px;
@@ -114,10 +116,11 @@
 .box-item {
   position: relative;
   // 对背景应用一个 10 像素的高斯模糊效果。
-  backdrop-filter: blur(2px);
-  opacity: 0.8;
+  // backdrop-filter: blur(1px);
+  opacity: 0.9;
   box-shadow: inset 0px 0px 27px rgba(27, 113, 194, 1);
   z-index: 999;
+  background-color: #010540a8;
   &::before {
     position: absolute;
     top: 0;
@@ -292,12 +295,7 @@
   border-radius: 4px;
   transition: all 0.3s;
 }
-.ff {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
+
 ::v-deep .ant-form-item {
   box-sizing: border-box;
   margin: 0;

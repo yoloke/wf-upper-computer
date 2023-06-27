@@ -26,142 +26,235 @@ const PropsType = {
 export default defineComponent({
   props: PropsType,
   setup(props) {
+    let scaleData = [
+      {
+        name: "合格等级1",
+        value: 600,
+      },
+      {
+        name: "合格等级2",
+        value: 400,
+      },
+      {
+        name: "合格等级3",
+        value: 200,
+      },
+      {
+        name: "合格等级4",
+        value: 200,
+      },
+    ];
+    var legend = ["合格等级1", "合格等级2", "合格等级3", "合格等级4"];
+    var data = [];
+    var placeHolderStyle = {
+      normal: {
+        label: {
+          show: false,
+        },
+        labelLine: {
+          show: false,
+        },
+        color: "rgba(0, 0, 0, 0)",
+        borderColor: "rgba(0, 0, 0, 0)",
+        borderWidth: 0,
+      },
+    };
+
+    for (var i = 0; i < scaleData.length; i++) {
+      data.push(
+        {
+          value: scaleData[i].value,
+          name: scaleData[i].name,
+          itemStyle: {
+            normal: {
+              borderWidth: 2,
+              shadowBlur: 6,
+              borderColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+                {
+                  offset: 0,
+                  color: "#7777eb",
+                },
+                {
+                  offset: 1,
+                  color: "#70ffac",
+                },
+              ]),
+              shadowColor: "rgba(142, 152, 241, 0.6)",
+            },
+          },
+        },
+        {
+          value: 1,
+          name: "",
+          itemStyle: placeHolderStyle,
+        }
+      );
+    }
     // 配置项
     let options = shallowReactive({
-      tooltip: {
-        /*
-        {a}：表示系列的名称（series name）。
-{b}：表示数据项的名称（data item name）。
-{c}：表示数据项的值（data item value）。
-*/
-        formatter: "{a} <br/> : {c} {b}", // 提示框内容的格式化字符串
-      },
-      series: [
-        {
-          name: "气压", // 系列名称
-          type: "gauge", // 图表类型为仪表盘
-          min: 0, // 最小值
-          max: 100, // 最大值
-          splitNumber: 12, // 刻度线的分割段数
-          detail: {
-            formatter: "{r1|{value}}", // 仪表盘详情的格式化字符串
-            rich: {
-              r1: {
-                fontSize: 30, // r1 标签的字体大小
-                verticalAlign: "bottom", // 垂直对齐方式为底部
-                padding: [0, 5, -2, 0], // r1 标签的内边距（上、右、下、左）
-                color: "#15ccbf", // 详情文本的颜色自动匹配
-              },
-            },
+      tooltip: null,
+      series: null,
+    });
+    let unit = "kpa";
+    let colors = ["#B58EF9", "#0DA8F6", "#5DD5D7", "pink"];
+    watch(
+      () => props.tips,
+      (val: any) => {
+        options = {
+          tooltip: { 
+            formatter: "{a} : {c} " + unit,
           },
-          pointer: {
-            icon: "path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z", // 指针图标的路径
-            length: "75%", // 指针长度
-            width: 10, // 指针宽度
-            offsetCenter: [0, "5%"], // 指针的中心偏移量
-          },
-          progress: {
-            roundCap: true, // 进度条的末端形状为圆角
-            show: true, // 显示进度条
-            width: 12, // 进度条宽度
-            itemStyle: {
-              shadowColor: "rgba(255, 255, 255, 0.4)", // 阴影的颜色
-              shadowBlur: 12, // 阴影的模糊程度
-              shadowOffsetX: 3, // 阴影在水平方向上的偏移量
-              shadowOffsetY: 3, // 阴影在垂直方向上的偏移量
-            },
-          },
-          itemStyle: {
-            color: "#0082FF", // 仪表盘指针的颜色
-          },
-
-          data: [
+          series: [
             {
-              value: 52.33, // 仪表盘的值
+              name: "气压",
+              type: "gauge",
+              //     startAngle: 180,
+              // endAngle: 0,
+              min: 0,
+              max: 100,
+              splitNumber: 12,
+              // 仪表盘详情，用于显示数据。
+              detail: {
+                formatter: "{r1|{value}}",
+                rich: {
+                  r1: {
+                    fontSize: 30,
+                    verticalAlign: "bottom",
+                    padding: [0, 5, -2, 0],
+                    color: "#19fcde",
+                  },
+                },
+              },
+              // 仪表盘指针的锚点配置
+              anchor: {
+                show: true,
+                showAbove: true,
+                size: 6,
+                itemStyle: {
+                  borderWidth: 2,
+                  borderColor: "#2262E4",
+                },
+              },
+              // 仪表盘指针的样式配置
+              pointer: {
+                icon: "path://M2090.36389,615.30999 L2090.36389,615.30999 C2091.48372,615.30999 2092.40383,616.194028 2092.44859,617.312956 L2096.90698,728.755929 C2097.05155,732.369577 2094.2393,735.416212 2090.62566,735.56078 C2090.53845,735.564269 2090.45117,735.566014 2090.36389,735.566014 L2090.36389,735.566014 C2086.74736,735.566014 2083.81557,732.63423 2083.81557,729.017692 C2083.81557,728.930412 2083.81732,728.84314 2083.82081,728.755929 L2088.2792,617.312956 C2088.32396,616.194028 2089.24407,615.30999 2090.36389,615.30999 Z",
+                length: "75%",
+                width: 10,
+                offsetCenter: [0, "5%"],
+              },
+              // 仪表盘的进度配置
+              progress: {
+                roundCap: true,
+                show: true,
+                width: 12,
+              },
+              // 仪表盘的样式配置
+              itemStyle: {
+                color: "#0082FF",
+              },
+              // 仪表盘的数据
+              data: [
+                {
+                  value: 23.33,
+                 
+                },
+              ],
+              // 仪表盘的刻度线配置
+              axisLine: {
+                roundCap: true,
+                lineStyle: {
+                  width: 12,
+                  color: [
+                    [1, "rgba(92, 104, 158, 0.4)"], // 从0.6到1的范围内刻度线颜色为RGBA(244, 86, 86, 0.8)
+                  ],
+                },
+              },
+              // 仪表盘的分隔线配置
+              splitLine: {
+                show: false,
+              },
+              // 仪表盘的刻度配置
+              axisTick: {
+                show: false,
+              },
+              // 仪表盘的刻度标签配置
+              axisLabel: {
+                show: false,
+              },
+              // 图形元素的层级
+              zlevel: 10,
+            },
+            {
+              name: "kpa",
+              type: "gauge",
+              splitNumber: 10, //刻度数量
+              min: 0,
+              max: 100,
+              radius: "70%", //图表尺寸
+              center: ["50%", "50%"],
+              zlevel: 1,
+              axisLine: {
+                show: true,
+                lineStyle: {
+                  width: 0,
+                  shadowBlur: 0,
+                  color: [
+                    [0.2, "#23AFAF"],
+                    [0.4, "#2270DA"],
+                    [0.6, "#E99D02"],
+                    [1, "#F45656"],
+                  ],
+                },
+              },
+              axisTick: {
+                show: true,
+                lineStyle: {
+                  color: "auto",
+                  width: 2,
+                },
+                length: 10,
+                splitNumber: 5,
+              },
+              splitLine: {
+                show: true,
+                length: 12,
+                lineStyle: {
+                  color: "auto",
+                  width: 2,
+                },
+              },
+              axisLabel: {
+                distance: 5,
+                color: "#9BA5BC",
+                fontSize: 12,
+              },
+              pointer: {
+                //仪表盘指针
+                show: 0,
+                length: "0%",
+                width: 1,
+              },
+              anchor: {
+                show: true,
+                showAbove: true,
+                size: 20,
+                itemStyle: {
+                  color: "#EAEBF1",
+                },
+              },
+              detail: {
+                show: false,
+              },
+              data: [],
             },
           ],
-          // 设置仪表盘的刻度线样式
-          axisLine: {
-            roundCap: true, // 刻度线末端形状为圆角
-            lineStyle: {
-              width: 12, // 刻度线的宽度
-            },
-          },
-          splitLine: {
-            show: false, // 不显示分隔线
-          },
-          axisTick: {
-            show: false, // 不显示刻度线
-          },
-          axisLabel: {
-            show: false, // 不显示刻度标签
-          },
-          zlevel: 10, // 图层的层级
-        },
-        {
-          name: "", // 系列名称
-          type: "gauge", // 图表类型为仪表盘
-          splitNumber: 10, // 刻度线的分割段数
-          min: 0, // 最小值
-          max: 100, // 最大值
-          radius: "70%", // 仪表盘的尺寸
-          center: ["50%", "50%"], // 仪表盘的中心位置
-          zlevel: 1, // 图层的层级
-          axisLine: {
-            show: true, // 显示刻度线
-            lineStyle: {
-              width: 0, // 刻度线的宽度
-              shadowBlur: 0, // 刻度线的阴影模糊大小
-              color: [
-                [0.2, "#23AFAF"], // 刻度线颜色的分段设置
-                [0.4, "#2270DA"],
-                [0.6, "#E99D02"],
-                [1, "#F45656"],
-              ],
-            },
-          },
-          axisTick: {
-            show: true, // 显示刻度线
-            lineStyle: {
-              color: "auto", // 刻度线颜色自动匹配
-              width: 2, // 刻度线的宽度
-            },
-            length: 10, // 刻度线的长度
-            splitNumber: 5, // 刻度线的分割段数
-          },
-          splitLine: {
-            show: true, // 显示分隔线
-            length: 12, // 分隔线的长度
-            lineStyle: {
-              color: "auto", // 分隔线颜色自动匹配
-              width: 2, // 分隔线的宽度
-            },
-          },
-          axisLabel: {
-            distance: 5, // 刻度标签与刻度线的距离
-            color: "#9BA5BC", // 刻度标签的颜色
-            fontSize: 12, // 刻度标签的字体大小
-          },
-          pointer: {
-            show: 0, // 不显示指针
-            length: "0%", // 指针长度为0%
-            width: 1, // 指针宽度为1
-          },
-          anchor: {
-            show: true, // 显示指针锚点
-            showAbove: true, // 指针锚点显示在指针上方
-            size: 30, // 指针锚点的大小
-            itemStyle: {
-              color: "#EAEBF1", // 指针锚点的颜色
-            },
-          },
-          detail: {
-            show: false, // 不显示详情
-          },
-          data: [], // 数据项为空
-        },
-      ],
-    });
+        };
+      },
+      {
+        immediate: true,
+        deep: true,
+      }
+    );
 
     return () => {
       const height = "100%";

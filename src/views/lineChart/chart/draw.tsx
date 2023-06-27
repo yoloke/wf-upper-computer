@@ -29,22 +29,6 @@ export default defineComponent({
         maxValue = value;
       }
     });
-    function calculateMinMax() {
-      if (data.length > 0) {
-        minValue = data[0].value[1];
-        maxValue = data[0].value[1];
-
-        for (let i = 1; i < data.length; i++) {
-          const value = data[i].value[1];
-          if (value < minValue) {
-            minValue = value;
-          }
-          if (value > maxValue) {
-            maxValue = value;
-          }
-        }
-      }
-    }
     let x = 0;
     let value = Math.random().toFixed(2);
 
@@ -67,14 +51,16 @@ export default defineComponent({
     // 配置项
     const options = reactive({
       legend: {
-        icon: "circle",
-        top: "5%",
-        right: "5%",
-        itemWidth: 6,
-        itemGap: 20,
+        align: "left",
+        right: "4%",
+        top: "0",
         textStyle: {
-          color: "#556677",
+          color: "#7ec7ff",
+          fontSize: 16,
         },
+        itemGap: 25,
+        itemWidth: 18,
+        icon: "path://M0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z",
       },
       tooltip: {
         trigger: "axis",
@@ -86,16 +72,17 @@ export default defineComponent({
         extraCssText: "box-shadow: 1px 0 2px 0 rgba(163,163,163,0.5)",
       },
       grid: {
+        top: "9%",
         bottom: "16%",
-        left: "8%",
-        right: "8%",
+        left: "4%",
+        right: "4%",
       },
       xAxis: {
         type: "category",
-
         axisLine: {
           lineStyle: {
-            color: "#DCE2E8",
+            color: "#00E0FF",
+            width: 2,
           },
         },
         axisTick: {
@@ -143,16 +130,17 @@ export default defineComponent({
           type: "value",
           scale: true, // y轴的起点 不从0开始  按照数值更智能化 脱离0值比例
           position: "left",
-          minInterval: 0.5,
           axisTick: {
             show: false,
           },
           axisLine: {
             show: true,
             lineStyle: {
-              color: "#DCE2E8",
+              color: "#00E0FF",
+              width: 2,
             },
           },
+          // 刻度文字
           axisLabel: {
             textStyle: {
               color: "#fff",
@@ -168,7 +156,6 @@ export default defineComponent({
         {
           type: "value",
           position: "right",
-          minInterval: 0.5,
           axisTick: {
             show: false,
           },
@@ -182,11 +169,16 @@ export default defineComponent({
           axisLine: {
             show: true,
             lineStyle: {
-              color: "#DCE2E8",
+              color: "#00E0FF",
+              width: 2,
             },
           },
           splitLine: {
-            show: false,
+            show: true,
+            lineStyle: {
+              type: "dashed", // 设置线的类型为虚线
+              color: "rgba(0, 224, 255, 0.4)", // 设置线的颜色
+            },
           },
         },
       ],
@@ -202,42 +194,43 @@ export default defineComponent({
           showSymbol: true, // 是否显示数据点的标记
           lineStyle: {
             width: 3,
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
-              {
-                offset: 0,
-
-                color: "#73DDFF",
-              },
-              {
-                offset: 1,
-                color: "#73DD39",
-              },
-            ]),
             shadowColor: "rgba(115,221,255, 0.3)",
             shadowBlur: 10,
             shadowOffsetY: 2,
           },
-          // itemStyle: {
-          //   normal: {
-          //     color: colorList[1],
-          //     borderColor: colorList[1],
-          //     label: {
-          //       show: true,
-          //       position: "top",
-          //       textStyle: {
-          //         fontSize: 12,
-          //         color: "#fff",
-          //       },
-          //       formatter: (params) => {
-          //         if (options.series[0].data.length - 1 == params.dataIndex) {
-          //           return params.value + " ℃";
-          //         } else {
-          //           return "";
-          //         }
-          //       },
-          //     },
-          //   },
-          // },
+          // 设置数据点的样式
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+                {
+                  offset: 0,
+                  color: "rgba(77,177,219,0.8)",
+                },
+                {
+                  offset: 1,
+                  color: "rgba(77,177,219,1)",
+                },
+              ]),
+              // 数据点边框的颜色
+              borderColor: colorList[1],
+              // 线条末端的数据展示
+              // label: {
+              //   show: true,
+              //   position: "top",
+              //   textStyle: {
+              //     fontSize: 12,
+              //     color: "#fff",
+              //   },
+              //   formatter: (params) => {
+              //     if (options.series[0].data.length - 1 == params.dataIndex) {
+              //       return params.value + " ℃";
+              //     } else {
+              //       return "";
+              //     }
+              //   },
+              // },
+            },
+          },
         },
         {
           name: "气压", // 数据系列的名称
@@ -250,35 +243,34 @@ export default defineComponent({
           showSymbol: true, // 是否显示数据点的标记
           lineStyle: {
             width: 3, // 曲线的宽度
-            color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
-              { offset: 0, color: "#9effff" }, // 渐变色起始颜色
-              { offset: 1, color: "#9E87FF" }, // 渐变色结束颜色
-            ]),
             shadowColor: "rgba(158,135,255, 0.3)", // 阴影颜色
             shadowBlur: 10, // 阴影模糊度
             shadowOffsetY: 2, // 阴影垂直偏移量
           },
-          // itemStyle: {
-          //   normal: {
-          //     color: colorList[0], // 数据点的颜色
-          //     borderColor: colorList[0], // 数据点边框的颜色
-          //     label: {
-          //       show: true,
-          //       position: "top",
-          //       textStyle: {
-          //         fontSize: 12,
-          //         color: "#fff",
-          //       },
-          //       formatter: (params) => {
-          //         if (options.series[1].data.length - 1 == params.dataIndex) {
-          //           return params.value + " Pa";
-          //         } else {
-          //           return "";
-          //         }
-          //       },
-          //     },
-          //   },
-          // },
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [
+                { offset: 0, color: "rgba(121,72,234,0.8)" }, // 渐变色起始颜色
+                { offset: 1, color: "rgba(121,72,234,1)" }, // 渐变色结束颜色
+              ]),
+              borderColor: colorList[0], // 数据点边框的颜色
+              // label: {
+              //   show: true,
+              //   position: "top",
+              //   textStyle: {
+              //     fontSize: 12,
+              //     color: "#fff",
+              //   },
+              //   // formatter: (params) => {
+              //   //   if (options.series[1].data.length - 1 == params.dataIndex) {
+              //   //     return params.value + " Pa";
+              //   //   } else {
+              //   //     return "";
+              //   //   }
+              //   // },
+              // },
+            },
+          },
         },
       ],
       // toolbox: {
@@ -306,13 +298,13 @@ export default defineComponent({
         options.series[1].data = data2;
       } else {
         data.push(randomData());
-        calculateMinMax();
+   
         options.series[0].data = data;
         data2.push(randomData2());
 
         options.series[1].data = data2;
       }
-    }, 1000);
+    }, 2000);
     watch(
       () => props.cdata,
       (val) => {},
@@ -328,90 +320,3 @@ export default defineComponent({
     };
   },
 });
-// // 定义主体
-// export default defineComponent({
-//   props: PropsType,
-//   setup(props) {
-//     // 定义 ref
-//     const colorList = ["#9E87FF", "#73DDFF", "#fe9a8b", "#F56948", "#9E87FF"];
-//     // 配置项
-
-//     let data = reactive([]);
-//     let now = new Date(1997, 9, 3);
-//     let oneDay = 24 * 3600 * 1000;
-//     let x = 0;
-//     let value = Math.random() * 1000;
-//     function randomData() {
-//       x = x + 1;
-//       value = value + Math.random() * 21 - 10;
-//       return {
-//         name: x.toString(),
-//         value: [x, Math.round(value)],
-//       };
-//     }
-//     for (var i = 0; i < 1000; i++) {
-//       data.push(randomData());
-//     }
-//     const options = reactive({
-//       tooltip: {
-//         trigger: "axis",
-//         formatter: function (params) {
-//           params = params[0];
-//           var date = new Date(params.name);
-//           return (
-//             date.getDate() +
-//             "/" +
-//             (date.getMonth() + 1) +
-//             "/" +
-//             date.getFullYear() +
-//             " : " +
-//             params.value[1]
-//           );
-//         },
-//         axisPointer: {
-//           animation: false,
-//         },
-//       },
-//       xAxis: {
-//         type: "value",
-//         splitLine: {
-//           show: false,
-//         },
-//       },
-//       yAxis: {
-//         type: "value",
-//         boundaryGap: [0, "100%"],
-//         splitLine: {
-//           show: false,
-//         },
-//       },
-//       series: [
-//         {
-//           name: "Fake Data",
-//           type: "line",
-//           showSymbol: false,
-//           data: data,
-//         },
-//       ],
-//     });
-//     setInterval(function () {
-//       data.shift();
-//       data.push(randomData());
-
-//       options.series[0].data = data;
-//     }, 5);
-//     watch(
-//       () => props.cdata,
-//       (val) => {},
-//       {
-//         immediate: true,
-//       }
-//     );
-//     return () => {
-//       const height = "380px";
-//       const width = "100%";
-
-//       return <echart options={options} height={height} width={width} />;
-//     };
-//   },
-// });
