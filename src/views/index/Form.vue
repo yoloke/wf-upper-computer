@@ -95,12 +95,12 @@
             <a-row :gutter="24">
               <a-col :span="12">
                 <a-form-item label="气压偏移量" name="PressOffset">
-                  <a-input v-model:value="formState.PressOffset" />
+                  <a-input-number v-model:value="formState.PressOffset" style="width: 100%;"/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
                 <a-form-item label="温度偏移量" name="PressOffset">
-                  <a-input v-model:value="formState.TempOffset" />
+                  <a-input-number v-model:value="formState.TempOffset" style="width: 100%;"/>
                 </a-form-item>
               </a-col>
             </a-row>
@@ -135,14 +135,16 @@ import {
   getSensorList,
   getPressUnits,
   getComPort,
-  getSetting ,
+  getSetting,
+  updateSetting
 } from "@/api/index.js";
-import { ref, reactive, onMounted, defineProps, toRef } from "vue";
+import { ref, reactive, onMounted, defineProps, toRefs } from "vue";
 import useDraw from "@/utils/useDraw";
 const { appRef, calcRate, windowDraw, unWindowDraw } = useDraw();
 
 const props = defineProps(['formState']);
-let formState = toRef(props, 'formState');
+const formState = ref(props.formState);
+
 
 const handleChange = (value: string) => {
   if (value == "WF183D_11BAR") {
@@ -157,6 +159,9 @@ let visible = ref<boolean>(false);
 const handleOk = (e: MouseEvent) => {
   visible.value = false;
   console.log(formState.value);
+  updateSetting(formState.value).then(res => {
+    console.log(res.data);
+  })
 };
 let sensorModelList = reactive([]);
 let pressUnitsList = reactive([]);

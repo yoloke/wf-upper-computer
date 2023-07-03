@@ -37,10 +37,12 @@
             <a-button type="danger" size="large" @click="stop" v-else>
               停止
             </a-button>
-            <a-button type="primary" size="large" ghost @click="form.someMethod">
+            <a-button type="primary" size="large" ghost @click="form.someMethod" :disabled="!showStart">
               设置
             </a-button>
-            <a-button type="primary" size="large" ghost>测试函数</a-button>
+            <a-button type="primary" size="large" ghost @click="exportDatas">
+              导出
+            </a-button>
           </div>
           <!-- 警示器 -->
           <span class="iconfont icon-early-warning myIcon" :style="{
@@ -105,8 +107,10 @@ import {
   getPressUnits,
   getSetting,
   addData,
+  exportData,
 } from "@/api/index.js";
 import Chart from "@/views/dashboard/index.vue";
+import { message } from "ant-design-vue";
 import { ref, reactive, onMounted, watchEffect } from "vue";
 import useDraw from "@/utils/useDraw";
 import LineChart from "@/views/lineChart/index.vue";
@@ -185,82 +189,30 @@ const cancelLoading = () => {
     loading.value = false;
   }, 500);
 };
-
-const modelInfo = {
-  WF5803_1BAR: {
-    min: 30 * u.value,
-    max: 150 * u.value,
-    url: "https://www.weifengheng.com/show-80.html",
-  },
-  WF5803_2BAR: {
-    min: 30 * u.value,
-    max: 250 * u.value,
-    url: "https://www.weifengheng.com/show-442.html",
-  },
-  WF5803_7BAR: {
-    min: 30 * u.value,
-    max: 800 * u.value,
-    url: "https://www.weifengheng.com/show-47.html",
-  },
-  WF5803_10BAR: {
-    min: 30 * u.value,
-    max: 1100 * u.value,
-    url: "https://www.weifengheng.com/show-443.html",
-  },
-  WF5803_20BAR: {
-    min: 30 * u.value,
-    max: 2100 * u.value,
-    url: "https://www.weifengheng.com/show-444.html",
-  },
-  WF5805_2BAR: {
-    min: 30 * u.value,
-    max: 250 * u.value,
-    url: "https://www.weifengheng.com/show-98.html",
-  },
-  WF100D_5KPA: {
-    min: -6 * u.value,
-    max: 6 * u.value,
-    url: "https://www.weifengheng.com/show-160.html",
-  },
-  WF100D_10KPA: {
-    min: -12 * u.value,
-    max: 12 * u.value,
-  },
-  WF100D_40KPA: {
-    min: -50 * u.value,
-    max: 50 * u.value,
-  },
-  WF100D_100KPA: {
-    min: -120 * u.value,
-    max: 120 * u.value,
-  },
-  WF100D_200KPA: {
-    min: -100 * u.value,
-    max: 240 * u.value,
-  },
-  WF100D_300KPA: {
-    min: -100 * u.value,
-    max: 360 * u.value,
-    url: "https://www.weifengheng.com/show-160.html",
-  },
-  WF200D_5KPA: {
-    min: -6 * u.value,
-    max: 6 * u.value,
-    url: "https://www.weifengheng.com/show-397.html",
-  },
-  WF200D_10KPA: {
-    min: -12 * u.value,
-    max: 12 * u.value,
-    url: "https://www.weifengheng.com/show-397.html",
-  },
-  WF183D_11BAR: {
-    min: 30 * u.value,
-    max: 1200 * u.value,
-    url: "https://www.weifengheng.com/show-195.html",
-  },
-};
-
-const wf183d11bar = modelInfo.WF183D_11BAR;
+// 导出数据
+const key = "updatable";
+function exportDatas() {
+  message.loading({
+    content: "导出中...",
+    key,
+    style: {
+      marginTop: "40vh",
+    },
+  });
+  exportData().then((res) => {
+    if (res.data.success) {
+      message.success({
+        content: "导出成功 !",
+        key,
+        duration: 2,
+        style: {
+          marginTop: "40vh",
+        },
+      });
+    } else {
+    }
+  });
+}
 </script>
 
 <style lang="scss" scoped>

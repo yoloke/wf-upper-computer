@@ -50,6 +50,18 @@ export function getSetting(parameter) {
     params: parameter
   })
 }
+/**
+ * 更新配置
+ *
+ * @author zyn
+ */
+export function updateSetting(parameter) {
+  return api({
+    url: '/DemoTool/UpdateSetting',
+    method: 'post',
+    data: parameter
+  })
+}
 
 /**
  * 添加数据
@@ -61,5 +73,18 @@ export function addData(parameter) {
     url: '/DemoTool/SensorData',
     method: 'get',
     params: parameter
+  })
+}
+
+/**
+ * 导出数据
+ *
+ * @author zyn
+ */
+export function exportData(parameter) {
+  return api({
+    url: '/DemoTool/Export',
+    method: 'post',
+    data: parameter
   })
 }
