@@ -6,7 +6,6 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   publicPath: './',
-  
   devServer: {
     proxy: {
       '/api': {

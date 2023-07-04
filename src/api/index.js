@@ -1,4 +1,28 @@
 import api from '../utils/request.js'
+/**
+ * 开始运行
+ *
+ * @author zyn
+ */
+export function startData(parameter) {
+  return api({
+    url: '/DemoTool/Start',
+    method: 'post',
+    data: parameter
+  })
+}
+/**
+ * 停止运行
+ *
+ * @author zyn
+ */
+export function stopData(parameter) {
+  return api({
+    url: '/DemoTool/Stop',
+    method: 'post',
+    data: parameter
+  })
+}
 
 /**
  * 获取传感器型号

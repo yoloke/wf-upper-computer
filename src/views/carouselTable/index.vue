@@ -7,8 +7,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue";
-const props = defineProps(["value"]);
-console.log(props);
+const props = defineProps(["value","unit"]);
 
 
 let tableConfig = ref({
@@ -23,13 +22,22 @@ let tableConfig = ref({
 watch(
   () => props.value,
   (val) => {
-   
     tableConfig.value.data.unshift([
       new Date().toLocaleString(),
-      val.press + " kPa",
+      val.press + " "+ props.unit,
       val.temp + " ℃",
     ]);
     tableConfig.value = { ...tableConfig.value };
   }
 );
+
+// 清空表格数据
+let clearData=()=> {
+  tableConfig.value.data=[]
+    tableConfig.value = { ...tableConfig.value };
+}
+//暴露方法
+defineExpose({
+  clearData
+});
 </script>

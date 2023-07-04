@@ -17,6 +17,7 @@ let options = ref({
     {
       name: props.title,
       type: "gauge",
+       radius: "85%", //图表尺寸
       //     startAngle: 180,
       // endAngle: 0,
       min: props.min,
@@ -98,7 +99,7 @@ let options = ref({
       splitNumber: 10, //刻度数量
       min: props.min,
       max: props.max,
-      radius: "70%", //图表尺寸
+      radius: "80%", //图表尺寸
       center: ["50%", "50%"],
       zlevel: 1,
       axisLine: {

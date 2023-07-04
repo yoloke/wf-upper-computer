@@ -26,7 +26,7 @@
         height: 100%;
         font-family: "MyFont", sans-serif;
         font-weight: 400;
-        background: #fff;
+        background:linear-gradient(180deg, rgba(147, 175, 255, 1) 0%, rgba(219, 228, 255, 1) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -47,7 +47,7 @@
       color: rgba(207, 207, 207, 1);
     }
     .console {
-      height: 124px;
+      height: 100px;
       margin-bottom: 16px;
       font-size: 26.8px;
       img {
@@ -108,8 +108,16 @@
         // 创建六个等宽的网格列，每个列的宽度都是网格容器剩余空间的均等份额。
         grid-template-columns: 1fr 1fr 2fr;
         grid-gap: 16px;
-        height: 340px;
+        height: 300px;
       }
+    }
+    .log {
+      margin-top: 16px;
+      height: 46px;
+      padding: 0 20px;
+      text-align: right;
+      line-height: 46px;
+      color: rgba(25, 252, 222, 1);
     }
   }
 }
@@ -124,8 +132,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     border-left: 3px solid #006ab7;
     border-top: 3px solid #006ab7;
     content: "";
@@ -136,8 +144,8 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     border-right: 3px solid #006ab7;
     border-top: 3px solid #006ab7;
     content: "";
@@ -153,8 +161,8 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-left: 3px solid #006ab7;
       border-bottom: 3px solid #006ab7;
       content: "";
@@ -164,8 +172,8 @@
       position: absolute;
       bottom: 0;
       right: 0;
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
       border-right: 3px solid #006ab7;
       border-bottom: 3px solid #006ab7;
       content: "";

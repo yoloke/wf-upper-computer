@@ -95,12 +95,16 @@
             <a-row :gutter="24">
               <a-col :span="12">
                 <a-form-item label="气压偏移量" name="PressOffset">
-                  <a-input-number v-model:value="formState.PressOffset" style="width: 100%;"/>
+                  <a-input-number
+                    v-model:value="formState.PressOffset"
+                    style="width: 100%" />
                 </a-form-item>
               </a-col>
               <a-col :span="12">
                 <a-form-item label="温度偏移量" name="PressOffset">
-                  <a-input-number v-model:value="formState.TempOffset" style="width: 100%;"/>
+                  <a-input-number
+                    v-model:value="formState.TempOffset"
+                    style="width: 100%" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -136,18 +140,18 @@ import {
   getPressUnits,
   getComPort,
   getSetting,
-  updateSetting
+  updateSetting,
 } from "@/api/index.js";
 import { ref, reactive, onMounted, defineProps, toRefs } from "vue";
 import useDraw from "@/utils/useDraw";
 const { appRef, calcRate, windowDraw, unWindowDraw } = useDraw();
-
-const props = defineProps(['formState']);
+const emit = defineEmits(["childClick"]); // 声明触发事件 childClick
+const props = defineProps(["formState"]);
 const formState = ref(props.formState);
-
+import { message } from "ant-design-vue";
 
 const handleChange = (value: string) => {
-  if (value == "WF183D_11BAR") {
+  if (sensorModelList[value] == "WF183D_11BAR") {
     formState.value.ComMode = 1;
   }
 };
@@ -158,10 +162,11 @@ const onFinishFailed = (errorInfo: any) => {
 let visible = ref<boolean>(false);
 const handleOk = (e: MouseEvent) => {
   visible.value = false;
-  console.log(formState.value);
-  updateSetting(formState.value).then(res => {
-    console.log(res.data);
-  })
+  updateSetting(formState.value).then((res) => {
+    if (res.data.success) {
+      emit("childClick");
+    }
+  });
 };
 let sensorModelList = reactive([]);
 let pressUnitsList = reactive([]);
@@ -188,7 +193,6 @@ defineExpose({
     visible.value = true;
   },
 });
-
 </script>
 
 <style lang="scss" scoped>

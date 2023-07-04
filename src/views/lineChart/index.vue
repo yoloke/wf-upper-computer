@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import * as echarts from "echarts";
 import { ref, reactive, watch } from "vue";
-const props = defineProps(["value"]);
+const props = defineProps(["value", "unit"]);
 // 定义 ref
 const colorList = ["#9E87FF", "#73DDFF", "#fe9a8b", "#F56948", "#9E87FF"];
 let data = reactive([]);
@@ -24,24 +24,19 @@ data.forEach((item) => {
   }
 });
 let x = 0;
-let value = Math.random().toFixed(2);
+// 清空表格数据
+let clearData = () => {
+  x = 0;
+  data.length = 0;
+  data2.length = 0;
 
-function randomData() {
-  x = x + 1;
-  value = Math.random().toFixed(2);
-  return {
-    name: x.toString(),
-    value: [x, value],
-  };
-}
-function randomData2() {
-  value = Math.random().toFixed(2);
-
-  return {
-    name: x.toString(),
-    value: [x, value],
-  };
-}
+  options.series[1].data = data;
+  options.series[0].data = data2;
+};
+//暴露方法
+defineExpose({
+  clearData,
+});
 // 配置项
 const options = reactive({
   legend: {
@@ -158,7 +153,7 @@ const options = reactive({
           color: "#fff",
           fontSize: 10,
         },
-        formatter: "{value} Pa",
+        formatter: "{value} " + props.unit,
       },
       axisLine: {
         show: true,
@@ -283,7 +278,7 @@ const options = reactive({
 watch(
   () => props.value,
   (val) => {
-    if (x > 200) {
+    if (data.length > 200) {
       data.shift();
       data2.shift();
     }
@@ -293,6 +288,18 @@ watch(
 
     options.series[1].data = data;
     options.series[0].data = data2;
+  }
+);
+watch(
+  () => props.unit,
+  (val) => {
+    options.yAxis[1].axisLabel = {
+      textStyle: {
+        color: "#fff",
+        fontSize: 10,
+      },
+      formatter: "{value} " + val,
+    };
   }
 );
 </script>
