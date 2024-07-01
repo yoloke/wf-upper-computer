@@ -28,7 +28,8 @@
                   ? sensorModelList[formState.sensorModel].split('_')[0]
                   : '')
               "
-              target="_blank">
+              target="_blank"
+            >
               <a-button type="primary" ghost>详细资料</a-button>
             </a>
           </div>
@@ -44,7 +45,8 @@
               type="primary"
               size="large"
               @click="start"
-              v-if="showStart">
+              v-if="showStart"
+            >
               运行
             </a-button>
             <a-button type="danger" size="large" @click="stop" v-else>
@@ -55,7 +57,8 @@
               size="large"
               ghost
               @click="form.someMethod"
-              :disabled="!showStart">
+              :disabled="!showStart"
+            >
               设置
             </a-button>
             <a-button type="primary" size="large" ghost @click="exportDatas">
@@ -68,19 +71,22 @@
             :style="{
               color: isGreen ? '#00FF66' : '#FF0000',
               textShadow: isGreen ? '0 0 8px #00FF66' : '0 0 8px #FF0000',
-            }"></span>
+            }"
+          ></span>
         </div>
         <!-- echarts图表 -->
         <div class="body-box">
           <div
-            class="center-box box-item d-flex flex-column jc-center ai-center">
+            class="center-box box-item d-flex flex-column jc-center ai-center"
+          >
             <div class="title">
               <span class="d-flex jc-center ai-center">运行数据</span>
             </div>
             <LineChart
               ref="lineChartRef"
               :value="data"
-              :unit="sensorUnit"></LineChart>
+              :unit="sensorUnit"
+            ></LineChart>
             <div class="box-item-footer"></div>
           </div>
           <div class="bottom-box">
@@ -90,7 +96,8 @@
                 :unit="sensorUnit"
                 :value="data.press"
                 min="-20"
-                max="120" />
+                max="120"
+              />
               <div class="box-item-footer"></div>
             </div>
             <div class="box-item">
@@ -99,14 +106,16 @@
                 unit="℃"
                 :value="data.temp"
                 min="-20"
-                max="120" />
+                max="120"
+              />
               <div class="box-item-footer"></div>
             </div>
             <div class="box-item">
               <carousel-table
                 ref="tableRef"
                 :value="data"
-                :unit="sensorUnit"></carousel-table>
+                :unit="sensorUnit"
+              ></carousel-table>
               <div class="box-item-footer"></div>
             </div>
           </div>
@@ -126,7 +135,8 @@
     :sensorModelList="sensorModelList"
     :pressUnitsList="pressUnitsList"
     :formState="formState"
-    @childClick="childClick"></Form>
+    @childClick="childClick"
+  ></Form>
 </template>
 
 <script lang="ts" setup>
@@ -176,24 +186,24 @@ let data = ref({
   press: 0,
   temp: 0,
 });
-function generateRandomObject() {
+const generateRandomObject = () => {
   //   const min = -20; // 最小值
   //   const max = 120; // 最大值
 
   //  // 生成随机 press 和 temp 值
   // const press = parseFloat((Math.random() * (max - min) + min).toFixed(3));
   // const temp = parseFloat((Math.random() * (max - min) + min).toFixed(2));
-  
+
   //   data.value = { press, temp };
   //   // 更新 randomObject 的值
   addData().then((res) => {
     // console.log(res);
-    const press = parseFloat(res.data.Press.toFixed(3));
-    const temp = parseFloat(res.data.Temp.toFixed(2));
+    const press = parseFloat(res.data.Press.toFixed(4));
+    const temp = parseFloat(res.data.Temp.toFixed(4));
 
     data.value = { press, temp };
   });
-}
+};
 
 // * 加载标识
 const loading = ref<boolean>(true);
@@ -231,7 +241,7 @@ let sensorUnit = ref("kPa");
 let submitKey = "submitKey";
 let childClick = () => {
   message.loading({
-    content: "更新中...",
+    content: "数据更新中...",
     key: submitKey,
     style: {
       marginTop: "40vh",
@@ -243,14 +253,14 @@ let childClick = () => {
     sensorUnit.value = pressUnitsList[formState.value.sensorUnit];
     tableRef.value.clearData();
     lineChartRef.value.clearData();
-     message.success({
-        content: "更新成功 !",
-        key: submitKey,
-        duration: 2,
-        style: {
-          marginTop: "40vh",
-        },
-      });
+    message.success({
+      content: "更新成功 !",
+      key: submitKey,
+      duration: 2,
+      style: {
+        marginTop: "40vh",
+      },
+    });
   });
 };
 let timer = null; // 定时器引用

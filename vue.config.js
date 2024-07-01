@@ -11,7 +11,9 @@ module.exports = defineConfig({
       '/api': {
         target: 'http://localhost:9981',
         changeOrigin: true,
+        
       }
     }
   }
 });
+

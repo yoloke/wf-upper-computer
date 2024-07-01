@@ -2,7 +2,8 @@ import axios from 'axios';
 
 // 创建一个Axios实例
 const api = axios.create({
-  baseURL: '/api',
+  // baseURL: "/api/DemoTool",
+  baseURL: process.env.VUE_APP_API_URL,
   timeout: 6000 // 请求超时时间
 });
 

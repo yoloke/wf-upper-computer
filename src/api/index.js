@@ -6,7 +6,7 @@ import api from '../utils/request.js'
  */
 export function startData(parameter) {
   return api({
-    url: '/DemoTool/Start',
+    url: '/Start',
     method: 'post',
     data: parameter
   })
@@ -18,7 +18,7 @@ export function startData(parameter) {
  */
 export function stopData(parameter) {
   return api({
-    url: '/DemoTool/Stop',
+    url: '/Stop',
     method: 'post',
     data: parameter
   })
@@ -31,7 +31,7 @@ export function stopData(parameter) {
  */
 export function getSensorList(parameter) {
   return api({
-    url: '/DemoTool/Models',
+    url: '/Models',
     method: 'get',
     params: parameter
   })
@@ -43,7 +43,7 @@ export function getSensorList(parameter) {
  */
 export function getPressUnits(parameter) {
   return api({
-    url: '/DemoTool/Units',
+    url: '/Units',
     method: 'get',
     params: parameter
   })
@@ -56,7 +56,7 @@ export function getPressUnits(parameter) {
  */
 export function getComPort(parameter) {
   return api({
-      url: '/DemoTool/Ports',
+      url: '/Ports',
     method: 'get',
     params: parameter
   })
@@ -69,7 +69,7 @@ export function getComPort(parameter) {
  */
 export function getSetting(parameter) {
   return api({
-    url: '/DemoTool/Setting',
+    url: '/Setting',
     method: 'get',
     params: parameter
   })
@@ -81,7 +81,7 @@ export function getSetting(parameter) {
  */
 export function updateSetting(parameter) {
   return api({
-    url: '/DemoTool/UpdateSetting',
+    url: '/UpdateSetting',
     method: 'post',
     data: parameter
   })
@@ -94,7 +94,7 @@ export function updateSetting(parameter) {
  */
 export function addData(parameter) {
   return api({
-    url: '/DemoTool/SensorData',
+    url: '/SensorData',
     method: 'get',
     params: parameter
   })
@@ -107,7 +107,7 @@ export function addData(parameter) {
  */
 export function exportData(parameter) {
   return api({
-    url: '/DemoTool/Export',
+    url: '/Export',
     method: 'post',
     data: parameter
   })
