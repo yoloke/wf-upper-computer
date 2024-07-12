@@ -5,19 +5,19 @@
       <!-- 主体 -->
       <div v-else class="host-body">
         <!-- 头部logo 公司信息 -->
-        <my-header></my-header>
+        <my-header :showStart=showStart></my-header>
 
         <!-- 控制台 -->
         <div class="console d-flex ai-center jc-around box-item">
           <div class="box-item-footer"></div>
           <div class="content-item d-flex ai-center">
             <img src="@/assets/img/icon.webp" alt="" />
-            <div class="data-title">通讯口</div>
+            <div class="data-title">{{ $t("CommsPort") }}</div>
             <div class="data-content">{{ comPortList[formState.ComPort] }}</div>
           </div>
           <div class="content-item d-flex ai-center">
             <img src="@/assets/img/icon.webp" alt="" />
-            <div class="data-title">传感器型号</div>
+            <div class="data-title">{{ $t("SensorModel") }}</div>
             <div class="data-content">
               {{ sensorModelList[formState.sensorModel] }}
             </div>
@@ -30,12 +30,12 @@
               "
               target="_blank"
             >
-              <a-button type="primary" ghost>详细资料</a-button>
+              <a-button type="primary" ghost>{{ $t("Particulars") }}</a-button>
             </a>
           </div>
           <div class="content-item d-flex ai-center">
             <img src="@/assets/img/icon.webp" alt="" />
-            <div class="data-title">气压单位</div>
+            <div class="data-title">{{ $t("PressureUnit") }}</div>
             <div class="data-content">
               {{ sensorUnit }}
             </div>
@@ -47,10 +47,10 @@
               @click="start"
               v-if="showStart"
             >
-              运行
+              {{ $t("Runs") }}
             </a-button>
             <a-button type="danger" size="large" @click="stop" v-else>
-              停止
+              {{ $t("Stop") }}
             </a-button>
             <a-button
               type="primary"
@@ -59,10 +59,10 @@
               @click="form.someMethod"
               :disabled="!showStart"
             >
-              设置
+              {{ $t("Setting") }}
             </a-button>
             <a-button type="primary" size="large" ghost @click="exportDatas">
-              导出
+              {{ $t("Export") }}
             </a-button>
           </div>
           <!-- 警示器 -->
@@ -80,7 +80,9 @@
             class="center-box box-item d-flex flex-column jc-center ai-center"
           >
             <div class="title">
-              <span class="d-flex jc-center ai-center">运行数据</span>
+              <span class="d-flex jc-center ai-center">{{
+                $t("RunningData")
+              }}</span>
             </div>
             <LineChart
               ref="lineChartRef"
@@ -92,7 +94,7 @@
           <div class="bottom-box">
             <div class="box-item">
               <chart
-                title="气压"
+                :title="$t('Pressures')"
                 :unit="sensorUnit"
                 :value="data.press"
                 min="-20"
@@ -102,7 +104,7 @@
             </div>
             <div class="box-item">
               <chart
-                title="温度"
+                :title="$t('Temp')"
                 unit="℃"
                 :value="data.temp"
                 min="-20"
@@ -140,7 +142,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n } from "vue-i18n";
+
 import MyHeader from "@/components/header/index.vue";
+
 // import { createFromIconfontCN } from "@ant-design/icons-vue";
 // const IconFont = createFromIconfontCN({
 //   scriptUrl: "//at.alicdn.com/t/c/font_4133268_q6mwepawd4o.js",
@@ -198,10 +203,12 @@ const generateRandomObject = () => {
   //   // 更新 randomObject 的值
   addData().then((res) => {
     // console.log(res);
-    const press = parseFloat(res.data.Press.toFixed(4));
-    const temp = parseFloat(res.data.Temp.toFixed(4));
+    const press = res.data?.Press?.toFixed(4);
+    const temp = res.data?.Temp?.toFixed(4);
 
     data.value = { press, temp };
+    console.log(res.data);
+    
   });
 };
 
@@ -251,8 +258,8 @@ let childClick = () => {
     formState.value = res.data;
     u.value = Number(res.data.sensorUnit);
     sensorUnit.value = pressUnitsList[formState.value.sensorUnit];
-    tableRef.value.clearData();
-    lineChartRef.value.clearData();
+    // tableRef.value.clearData();
+    // lineChartRef.value.clearData();
     message.success({
       content: "更新成功 !",
       key: submitKey,

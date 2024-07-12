@@ -13,7 +13,7 @@ module.exports = defineConfig({
         changeOrigin: true,
         
       }
-    }
+    },
   }
 });
 

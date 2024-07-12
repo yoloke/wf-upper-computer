@@ -26,11 +26,16 @@
         height: 100%;
         font-family: "MyFont", sans-serif;
         font-weight: 400;
-        background:linear-gradient(180deg, rgba(147, 175, 255, 1) 0%, rgba(219, 228, 255, 1) 100%);
+        background: linear-gradient(
+          180deg,
+          rgba(147, 175, 255, 1) 0%,
+          rgba(219, 228, 255, 1) 100%
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
       .title-version {
+        width: 250px;
         position: absolute;
         right: 22px;
         top: 0;
@@ -38,6 +43,9 @@
         font-size: 13px;
         font-weight: 400;
         color: rgba(25, 252, 222, 1);
+        a {
+          color: #cfcfcf;
+        }
       }
     }
     .company-info {

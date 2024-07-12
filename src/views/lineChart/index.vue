@@ -3,8 +3,12 @@
 </template>
 
 <script lang="ts" setup>
+import i18n from "@/i18n/index";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
 import * as echarts from "echarts";
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, computed,watch } from "vue";
 const props = defineProps(["value", "unit"]);
 // 定义 ref
 const colorList = ["#9E87FF", "#73DDFF", "#fe9a8b", "#F56948", "#9E87FF"];
@@ -36,6 +40,13 @@ let clearData = () => {
 //暴露方法
 defineExpose({
   clearData,
+});
+
+const Pressures = computed(() => {
+  return t("Pressures");
+});
+const Temp = computed(() => {
+  return t("Temp");
 });
 // 配置项
 const options = reactive({
@@ -173,7 +184,7 @@ const options = reactive({
   ],
   series: [
     {
-      name: "气压", // 数据系列的名称
+      name: Pressures, // 数据系列的名称
       type: "line", // 数据系列的类型为线型
       data: data2,
       symbolSize: 1, // 数据点的大小
@@ -213,7 +224,7 @@ const options = reactive({
       },
     },
     {
-      name: "温度",
+      name: Temp,
       type: "line",
       data: data,
       symbolSize: 1, // 数据点的大小
@@ -275,6 +286,9 @@ const options = reactive({
   //   },
   // },
 });
+
+
+
 watch(
   () => props.value,
   (val) => {
